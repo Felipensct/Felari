@@ -6,13 +6,21 @@
 
 {% block body %}
 <div class="content">
-    <h1 style="text-align: center;">Update Task</h1>
+    <h1 style="text-align: center;">Atualizar produto</h1>
 
-  
+    <h2> Nome </h2>
 
     <form action="/update/{{task.id}}" method="POST">
         <input type="text" name="content" id="content" value="{{task.content}}">
-        <input type="submit" value="Update">
+    </form>
+
+    <h3> Serial </h3>
+
+
+
+    <form action="/update/{{task.id}}" method="POST">
+        <input type="text" name="content" id="content" value="{{task.content}}">
+        <input type="submit" value="Atualizar">
     </form>
 </div>
 {% endblock %}

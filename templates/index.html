@@ -12,18 +12,20 @@
     {% else %}
     <table>
         <tr>
-            <th>Task</th>
-            <th>Added</th>
-            <th>Actions</th>
+            <th>Produto</th>
+            <th>Adicionado</th>
+            <th>Serial</th>
+            <th>Ações</th>
         </tr>
         {% for task in tasks %}
         <tr>
             <td>{{ task.content }}</td>
             <td>{{ task.date_created.date() }}</td>
+            <td></td>
             <td>
-                <a href="/delete/{{task.id}}">Delete</a>
+                <a href="/delete/{{task.id}}">Apagar</a>
                 <br>
-                <a href="/update/{{task.id}}">Update</a>
+                <a href="/update/{{task.id}}">Atualizar</a>
             </td>
         </tr>
     {% endfor %}
@@ -32,7 +34,7 @@
 
     <form action="/" method="POST">
         <input type="text" name="content" id="content">
-        <input type="submit" value="Add task">
+        <input type="submit" value="Adicionar produto">
     </form>
 </div>
 {% endblock %}

@@ -1,15 +1,20 @@
 from flask import Flask,render_template,url_for,request, redirect
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 from datetime import datetime
+
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 db = SQLAlchemy(app)
+migrate = Migrate(app,db)
 
 class aFazer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    serial_number = db.Column(db.String(50), unique=True)
     content = db.Column(db.String(200))
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
+    
 
     def __repr__(self):
         return '<Task %r>' % self.id
@@ -19,9 +24,12 @@ def index():
     if request.method=='POST':
         task_content = request.form['content']
         new_task = aFazer(content = task_content)
+        
 
         try:
             db.session.add(new_task)
+            db.session.commit()
+            new_task.serial_number = f'AF-{new_task.id}'
             db.session.commit()
             return redirect('/')
         except:
