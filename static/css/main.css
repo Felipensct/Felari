@@ -1,7 +1,7 @@
-body, html {
+body {
     margin: 0;
     font-family: sans-serif;
-    background-color: lightblue;
+    background-color: red;
 }
 
 .content {
@@ -29,8 +29,4 @@ td {
 
 .form {
     margin-top: 20px;
-}
-
-#content {
-    width: 70%;
 }
