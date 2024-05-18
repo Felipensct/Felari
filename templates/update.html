@@ -1,19 +1,43 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Atualizar Produto</title>
+    <!-- Adicione estilos CSS diretamente no cabeçalho para centralização -->
+    <style>
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
 
-{% block head %}
-<title>FELARI</title>
-{% endblock %}
+        .form-group {
+            margin-bottom: 20px;  /* Espaçamento entre os campos de formulário */
+        }
 
-{% block body %}
-<div class="content">
-    <h1 style="text-align: center;">Atualizar produto</h1>
-
-    <h2> Nome </h2>
-
-    <form action="/update/{{task.id}}" method="POST">
-        <input type="text" name="content" id="content" value="{{task.content}}">
+        input[type="text"], input[type="submit"] {
+            align-items: center;
+            width: 300px;  /* Largura fixa para os campos de entrada e botão */
+            padding: 10px;  /* Padding para melhorar a aparência */
+            margin: 5px;  /* Espaçamento em torno dos campos */
+        }
+    </style>
+</head>
+<body>
+<div class="form-container">
+    <h1>Atualizar Produto</h1>
+    <form action="{{ url_for('update', id=task.id) }}" method="POST">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.content.label }}
+            {{ form.content(class_='form-control', value=task.content) }}
+        </div>
+        <div class="form-group">
+            {{ form.submit(class_='btn btn-primary') }}
+        </div>
     </form>
-
-   
 </div>
-{% endblock %}
+</body>
+</html>
+

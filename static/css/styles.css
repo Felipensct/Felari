@@ -1,0 +1,22 @@
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;  /* Isso faz o contêiner ocupar toda a altura da janela de visualização */
+}
+
+form {
+    text-align: center;
+}
+.center-form {
+    text-align: center;
+    margin: auto;
+    width: 50%;  /* Ajuste a largura conforme necessário */
+}
+.update-button-container {
+    text-align: center; /* Centraliza conteúdos inline */
+}
+
+
+
+

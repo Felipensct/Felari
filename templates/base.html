@@ -7,6 +7,24 @@
     {% block head %}{% endblock %}
 </head>
 <body>
-    {% block body %}{% endblock %}
+    <nav>
+        <!-- Barra de navegação aqui -->
+    </nav>
+
+    <!-- Local para inserir o código de mensagens flash -->
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    {% block body %}
+    {% endblock %}
+
+    <footer>
+        <!-- Rodapé aqui -->
+    </footer>
 </body>
 </html>
