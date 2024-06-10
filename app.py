@@ -10,7 +10,7 @@ from flask import flash
 
 class TaskForm(FlaskForm):
     content = StringField(validators=[DataRequired(), Length(min=5, max=200)])
-    submit = SubmitField('Submit')
+    submit = SubmitField('Atualizar')
  
 
 app = Flask(__name__)
@@ -39,7 +39,7 @@ def index():
         new_task.serial_number = str(random.randint(100000, 999999))
         db.session.add(new_task)
         db.session.commit()
-        flash('Tarefa adicionada com sucesso!')  # Mensagem flash
+        flash('Produto adicionado com sucesso!')  # Mensagem flash
         return redirect('/')
     tasks = aFazer.query.order_by(aFazer.date_created).all()
     return render_template('index.html', form=form, tasks=tasks)
@@ -60,7 +60,7 @@ def delete(id):
     task_to_delete = aFazer.query.get_or_404(id)
     db.session.delete(task_to_delete)
     db.session.commit()
-    flash('Tarefa deletada com sucesso!')  # Mensagem flash
+    flash('Produto deletado com sucesso!')  # Mensagem flash
     return redirect('/')
     
     
