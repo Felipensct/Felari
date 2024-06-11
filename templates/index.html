@@ -3,12 +3,431 @@
 {% block head %}
 <title>FELARI</title>
 <link rel="styles" href="static\css\styles.css">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
+<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"> -->
 
 {% endblock %}
 
 {% block body %}
+ <!-- LOGIN -->
+<div class="container login-container" style="height: 100vh;">
+    <div class="row h-100">
+        <div class="col-12 col-md-6 m-auto mt-lg-5">
+            <h1 class="felari">FELARI</h1>
+            <div class="form">
+                <form>
+                    <h4>
+                        Faça seu login.
+                    </h4>
+                    <h6>Caso ainda não possua usuário, solicite a um administrador</h6>
+                    <div class="form-group">
+                      <input type="text" class="form-control" id="inputUser" placeholder="Usuário">
+                    </div>
+                    <div class="form-group">
+                      <input type="password" class="form-control" id="inputPassword" placeholder="Senha">
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-10 col-md-6 mx-auto">
+                            <button type="submit" class="btn btn-block btn-primary">Enviar</button>
+                        </div>
+                    </div>
+                  </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- TELA INICIAL -->
+<div class="inicio my-5 container">
+    <div class="row">
+        <div class="col-12">
+            <div class="inicio-card">
+                <h2>Bem vindo!</h2>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6 my-3 h-100">
+            <div class="inicio-card h-100">
+                <h5>Histórico de produção</h5>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Produto</th>
+                                <th>Data</th>
+                                <th>Produzida</th>
+                                <th>Rastreada</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><a href="#">Nome 1</a></td>
+                                <td>01/01/10</td>
+                                <td>100</td>
+                                <td>99</td>
+                            </tr>
+                            <tr>
+                                <td><a href="#">Nome 1</a></td>
+                                <td>01/01/10</td>
+                                <td>100</td>
+                                <td>99</td>
+                            </tr>
+                            <tr>
+                                <td><a href="#">Nome 1</a></td>
+                                <td>01/01/10</td>
+                                <td>100</td>
+                                <td>99</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <small>
+                        <button class="btn btn-link">Ver todos</button>
+                    </small>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-8 col-md-6 col-lg-4 ml-auto">
+                        <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#modalNovaProducao">Nova Produção</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6 my-3 h-100">
+            <div class="inicio-card h-100">
+                <h5>Produtos</h5>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Produto</th>
+                                <th>Última Produção</th>
+                                <th>Última Atualização</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><a href="#">Nome 1</a></td>
+                                <td>01/01/10</td>
+                                <td>01/01/10</td>
+                            </tr>
+                            <tr>
+                                <td><a href="#">Nome 1</a></td>
+                                <td>01/01/10</td>
+                                <td>01/01/10</td>
+                            </tr>
+                            <tr>
+                                <td><a href="#">Nome 1</a></td>
+                                <td>01/01/10</td>
+                                <td>01/01/10</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <small>
+                        <button class="btn btn-link">Ver todos</button>
+                    </small>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-8 col-md-6 col-lg-4 ml-auto">
+                        <button class="btn btn-primary btn-block"  data-toggle="modal" data-target="#modalNovoProduto">Novo produto</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6 my-3 h-100">
+            <div class="inicio-card h-100">
+                <h5>Sequência de Produção</h5>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Produto</th>
+                                <th>Data e hora prevista</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><a href="#">Nome 1</a></td>
+                                <td>01/01/10 00:00:00</td>
+                            </tr>
+                            <tr>
+                                <td><a href="#">Nome 1</a></td>
+                                <td>01/01/10 00:00:00</td>
+                            </tr>
+                            <tr>
+                                <td><a href="#">Nome 1</a></td>
+                                <td>01/01/10 00:00:00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <small>
+                        <button class="btn btn-link">Ver todos</button>
+                    </small>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-12 col-md-8 col-lg-6 ml-auto">
+                        <button class="btn btn-success btn-block">Iniciar próxima</button>
+                    </div>
+
+                </div>
+                <div class="row py-1">
+                    <div class="col-12 col-md-8 col-lg-6 ml-auto">
+                        <button class="btn btn-secondary btn-block">Editar sequência</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-md-8 col-lg-6 ml-auto">
+                        <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#modalNovaProducao">Nova Produção</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6 my-3 h-100">
+            <div class="inicio-card h-100">
+                <h5>Pontos de acesso</h5>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Ponto</th>
+                                <th>Quantidade de roteiros</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><a href="#">Maq1</a></td>
+                                <td>10</td>
+                            </tr>
+                            <tr>
+                                <td><a href="#">Maq2</a></td>
+                                <td>20</td>
+                            </tr>
+                            <tr>
+                                <td><a href="#">Maq3</a></td>
+                                <td>30</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <small>
+                        <button class="btn btn-link">Ver todos</button>
+                    </small>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-12 col-md-8 col-lg-6 ml-auto">
+                        <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#modalNovaMaquina">Nova Máquina</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- VER TODO HISTÓRICO -->
+<div class="historico py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="historico-container">
+                    <div class="row">
+                        <div class="col-12">
+                            <h4>Histórico de Produção</h4>
+                        </div>
+                        <div class="col-12 py-4">
+                            <div class="d-flex align-items-center justify-content-end w-100 h-100">
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <input class="form-control" type="text" placeholder="Nome do produto">
+                                    <label class="ml-2 mr-1 mb-0" for="InicialDate">De:</label>
+                                    <input type="date" class="form-control" name="InicialDate" id="">
+                                    <label class="ml-2 mr-1 mb-0" for="EndDate">a:</label>
+                                    <input type="date" class="form-control" name="EndDate" id="">
+                                    <button class="ml-3 btn btn-primary">Filtrar</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 mt-3">
+                            <div class="table-responsive">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Produto</th>
+                                            <th>Data</th>
+                                            <th>Produzida</th>
+                                            <th>Rastreada</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><a href="#">Nome 1</a></td>
+                                            <td>01/01/10</td>
+                                            <td>100</td>
+                                            <td>99</td>
+                                        </tr>
+                                        <tr>
+                                            <td><a href="#">Nome 1</a></td>
+                                            <td>01/01/10</td>
+                                            <td>100</td>
+                                            <td>99</td>
+                                        </tr>
+                                        <tr>
+                                            <td><a href="#">Nome 1</a></td>
+                                            <td>01/01/10</td>
+                                            <td>100</td>
+                                            <td>99</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- VER TODOS PRODUTOS -->
+<div class="produtos py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="produtos-container">
+                    <div class="row">
+                        <div class="col-12">
+                            <h4>Todos produtos</h4>
+                        </div>
+                        <div class="col-12 py-4">
+                            <div class="d-flex align-items-center justify-content-between w-100 h-100">
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalNovoProduto">Novo Produto</button>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <input class="form-control" type="text" placeholder="Nome do produto">
+                                    <button class="ml-3 btn btn-primary">Filtrar</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 mt-3">
+                            <div class="table-responsive">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Produto</th>
+                                            <th>Última produção</th>
+                                            <th>Roteiro</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><a href="#">Nome 1</a></td>
+                                            <td>01/01/10</td>
+                                            <td>Maq1, Maq2, Maq3</td>
+                                        </tr>
+                                        <tr>
+                                            <td><a href="#">Nome 1</a></td>
+                                            <td>01/01/10</td>
+                                            <td>Maq1, Maq2, Maq3</td>
+                                        </tr>
+                                        <tr>
+                                            <td><a href="#">Nome 1</a></td>
+                                            <td>01/01/10</td>
+                                            <td>Maq1, Maq2, Maq3</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="production-page">
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-12">
+                teste
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- MODAL NOVO PRODUTO -->
+<!-- Modal -->
+<div class="modal fade" id="modalNovoProduto" tabindex="-1" aria-labelledby="modalNovoProdutoLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalNovoProdutoLabel">Cadastrar novo produto</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+          <button type="button" class="btn btn-primary">Salvar</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<!-- MODAL NOVA PRODUÇÃO -->
+<!-- Modal -->
+<div class="modal fade" id="modalNovaProducao" tabindex="-1" aria-labelledby="modalNovaProducaoLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalNovaProducaoLabel">Nova produção</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+          <button type="button" class="btn btn-primary">Salvar</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+<!-- MODAL NOVA MÁQUINA -->
+<!-- Modal -->
+<div class="modal fade" id="modalNovaMaquina" tabindex="-1" aria-labelledby="modalNovaMaquinaLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalNovaMaquinaLabel">Novo ponto de produção</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+          <button type="button" class="btn btn-primary">Salvar</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+<!-- 
 <div class="content">
     <h1 style="text-align: center;">FELARI</h1>
     {% if tasks|length < 1 %}
@@ -47,5 +466,5 @@
             {{ form.submit(class_='btn btn-primary') }}
         </div>
     </form>
-</div>
+</div> -->
 {% endblock %}

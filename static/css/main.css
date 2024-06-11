@@ -1,8 +1,11 @@
 body {
     margin: 0;
-    font-family: sans-serif;
-
-    background-color: red;
+    font-family: "Roboto", sans-serif;
+    /* background-color: red; */
+    background-color: transparent!important;
+    background-image: url('../img/common/background.jpg');
+    background-size: cover;
+    background-position: center;
 }
 
 .content {
@@ -21,6 +24,7 @@ table {
 
 th {
     height: 30px;
+    padding: 5px;
 }
 
 td {
@@ -30,4 +34,108 @@ td {
 
 .form {
     margin-top: 20px;
+}
+
+
+
+
+/* LOGIN */
+
+.felari{
+    /* font-family: "Tiny5", sans-serif; */
+    font-family: "Danfo", serif;
+    color: #fff;
+    font-weight: 700;
+    font-size: 8rem;
+    text-align: center;
+}
+.login-container h4, .login-container h6{
+    color: black;
+}
+
+.login-container form{
+    padding: 15px 35px;
+    background-color: #ededed;
+    border-radius: 35px;
+}
+.login-container form .form-control{
+    background-color: black;
+    color: #ededed;
+    font-size: 14px;
+}
+
+
+
+/*  CRIE UM PRODUTO  */
+
+.inicio .inicio-card{
+    padding: 15px 35px;
+    background-color: #ededed;
+    border-radius: 15px;
+}
+
+
+.inicio .inicio-card table{
+    font-size: 13px;
+    color: black;
+    text-align: left;
+    border: none;
+}
+
+.inicio .inicio-card table th{
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.inicio .inicio-card table td{
+text-align: left;
+}
+
+
+/* HISTÓRICO */
+.historico-container{
+    padding: 15px 35px;
+    background-color: #ededed;
+    border-radius: 15px;
+}
+
+
+.historico-container table{
+    font-size: 13px;
+    color: black;
+    text-align: left;
+    border: none;
+}
+
+.historico-container table th{
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.historico-container table td{
+    text-align: left;
+}
+
+/* PRODUTOS */
+.produtos-container{
+    padding: 15px 35px;
+    background-color: #ededed;
+    border-radius: 15px;
+}
+
+
+.produtos-container table{
+    font-size: 13px;
+    color: black;
+    text-align: left;
+    border: none;
+}
+
+.produtos-container table th{
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.produtos-container table td{
+    text-align: left;
 }
