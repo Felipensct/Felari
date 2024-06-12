@@ -9,7 +9,13 @@ from wtforms.validators import DataRequired, Length
 from flask_login import UserMixin, LoginManager, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
+
+
+# Simulando um banco de dados
+produtos = []
+
 app = Flask(__name__)
+app.secret_key = 'supersecretkey'
 app.config['SECRET_KEY'] = 'root'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 db = SQLAlchemy(app)
@@ -154,19 +160,26 @@ def nextOrders():
     return render_template('nextOrders.html', form=form, tasks=tasks)
 
 
-@app.route('/products', methods=['GET', 'POST'])
-@login_required
+@app.route('/products')
 def products():
-    form = TaskForm()
-    if form.validate_on_submit():
-        new_task = aFazer(content=form.content.data)
-        new_task.serial_number = str(random.randint(100000, 999999))
-        db.session.add(new_task)
-        db.session.commit()
-        flash('Produto adicionado com sucesso!')
-        return redirect('/')
-    tasks = aFazer.query.order_by(aFazer.date_created).all()
-    return render_template('products.html', form=form, tasks=tasks)
+    return render_template('products.html', produtos=produtos)
+
+@app.route('/create_product', methods=['POST'])
+def create_product():
+    nome_produto = request.form.get('nomeProduto')
+    ultima_producao = request.form.get('ultimoProducao')
+    roteiro = request.form.get('roteiro')
+
+    novo_produto = {
+        'nome': nome_produto,
+        'ultima_producao': datetime.strptime(ultima_producao, '%Y-%m-%d').strftime('%d/%m/%y'),
+        'roteiro': roteiro
+    }
+
+    produtos.append(novo_produto)
+    flash('Produto adicionado com sucesso!')
+
+    return redirect(url_for('products'))
 
 
 @app.route('/delete/<int:id>')
