@@ -76,21 +76,13 @@
                             </tr>
                         </thead>
                         <tbody>
+                            {% for produto in produtos %}
                             <tr>
-                                <td><a href="#">Nome 1</a></td>
-                                <td>01/01/10</td>
-                                <td>01/01/10</td>
+                                <td><a href="#">{{ produto.nome }}</a></td>
+                                <td>{{ produto.ultima_producao }}</td>
+                                <td>{{ produto.roteiro }}</td>
                             </tr>
-                            <tr>
-                                <td><a href="#">Nome 1</a></td>
-                                <td>01/01/10</td>
-                                <td>01/01/10</td>
-                            </tr>
-                            <tr>
-                                <td><a href="#">Nome 1</a></td>
-                                <td>01/01/10</td>
-                                <td>01/01/10</td>
-                            </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                     <small>

@@ -79,7 +79,7 @@ def index():
         flash('Produto adicionado com sucesso!')
         return redirect('/')
     tasks = aFazer.query.order_by(aFazer.date_created).all()
-    return render_template('index.html', form=form, tasks=tasks)
+    return render_template('index.html', form=form, tasks=tasks, produtos=produtos)
 
 
 @app.route('/logout')
