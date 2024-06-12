@@ -14,9 +14,26 @@
     border-color: var(--verde-escuro)!important;
 }
 
+
+/* RESET BOOTSTRAP SETTINGS */
+
+
+/* NAV */
+
+.navbarContainer .nav-item .nav-link{
+    color: var(--verde-escuro)!important;
+    font-weight: 400;
+}
+
+.navbarContainer .nav-item.active .nav-link{
+    font-weight: 700;
+    color: var(--verde)!important;
+}
+/* NAV */
+
 body {
     margin: 0;
-    font-family: "Roboto", sans-serif;
+    font-family: "Roboto", sans-serif!important;
     /* background-color: red; */
     background-color: transparent!important;
     background-image: url('../img/common/background.jpg');

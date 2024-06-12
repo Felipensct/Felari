@@ -8,37 +8,6 @@
 {% endblock %}
 
 {% block body %}
- <!-- LOGIN -->
-<div class="container login-container" style="height: 100vh;">
-    <div class="row h-100">
-        <div class="col-12 col-md-6 m-auto mt-lg-5">
-            <div class="text-center w-100">
-                <img src="../static/img/felariLogo.png" class="img-fluid mb-4" />
-            </div>
-            <div class="form">
-                <form>
-                    <h4>
-                        Faça seu login.
-                    </h4>
-                    <h6>Caso ainda não possua usuário, solicite a um administrador</h6>
-                    <div class="form-group">
-                      <input type="text" class="form-control" id="inputUser" placeholder="Usuário">
-                    </div>
-                    <div class="form-group">
-                      <input type="password" class="form-control" id="inputPassword" placeholder="Senha">
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col-10 col-md-6 mx-auto">
-                            <button type="submit" class="btn btn-block btn-primary">Enviar</button>
-                        </div>
-                    </div>
-                  </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-
 <!-- TELA INICIAL -->
 <div class="inicio my-5 container">
     <div class="row">
@@ -83,7 +52,7 @@
                         </tbody>
                     </table>
                     <small>
-                        <button class="btn btn-link">Ver todos</button>
+                        <a class="btn btn-link" href="/pastProductions">Ver todos</a>
                     </small>
                 </div>
                 <div class="row mt-3">
@@ -125,7 +94,7 @@
                         </tbody>
                     </table>
                     <small>
-                        <button class="btn btn-link">Ver todos</button>
+                        <a class="btn btn-link" href="/products">Ver todos</a>
                     </small>
                 </div>
 
@@ -164,7 +133,7 @@
                         </tbody>
                     </table>
                     <small>
-                        <button class="btn btn-link">Ver todos</button>
+                        <a class="btn btn-link" href="/nextOrders">Ver todos</a>
                     </small>
                 </div>
 
@@ -214,7 +183,7 @@
                         </tbody>
                     </table>
                     <small>
-                        <button class="btn btn-link">Ver todos</button>
+                        <a class="btn btn-link" href="/accessPoints">Ver todos</a>
                     </small>
                 </div>
 
@@ -228,141 +197,11 @@
     </div>
 </div>
 
-
-<!-- VER TODO HISTÓRICO -->
-<div class="historico py-5">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div class="historico-container">
-                    <div class="row">
-                        <div class="col-12">
-                            <h4>Histórico de Produção</h4>
-                        </div>
-                        <div class="col-12 py-4">
-                            <div class="d-flex align-items-center justify-content-end w-100 h-100">
-                                <div class="d-flex align-items-center justify-content-center">
-                                    <input class="form-control" type="text" placeholder="Nome do produto">
-                                    <label class="ml-2 mr-1 mb-0" for="InicialDate">De:</label>
-                                    <input type="date" class="form-control" name="InicialDate" id="">
-                                    <label class="ml-2 mr-1 mb-0" for="EndDate">a:</label>
-                                    <input type="date" class="form-control" name="EndDate" id="">
-                                    <button class="ml-3 btn btn-primary">Filtrar</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 mt-3">
-                            <div class="table-responsive">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Produto</th>
-                                            <th>Data</th>
-                                            <th>Produzida</th>
-                                            <th>Rastreada</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td><a href="#">Nome 1</a></td>
-                                            <td>01/01/10</td>
-                                            <td>100</td>
-                                            <td>99</td>
-                                        </tr>
-                                        <tr>
-                                            <td><a href="#">Nome 1</a></td>
-                                            <td>01/01/10</td>
-                                            <td>100</td>
-                                            <td>99</td>
-                                        </tr>
-                                        <tr>
-                                            <td><a href="#">Nome 1</a></td>
-                                            <td>01/01/10</td>
-                                            <td>100</td>
-                                            <td>99</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- VER TODOS PRODUTOS -->
-<div class="produtos py-5">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div class="produtos-container">
-                    <div class="row">
-                        <div class="col-12">
-                            <h4>Todos produtos</h4>
-                        </div>
-                        <div class="col-12 py-4">
-                            <div class="d-flex align-items-center justify-content-between w-100 h-100">
-                                <div class="d-flex align-items-center justify-content-center">
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalNovoProduto">Novo Produto</button>
-                                </div>
-                                <div class="d-flex align-items-center justify-content-center">
-                                    <input class="form-control" type="text" placeholder="Nome do produto">
-                                    <button class="ml-3 btn btn-primary">Filtrar</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 mt-3">
-                            <div class="table-responsive">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Produto</th>
-                                            <th>Última produção</th>
-                                            <th>Roteiro</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td><a href="#">Nome 1</a></td>
-                                            <td>01/01/10</td>
-                                            <td>Maq1, Maq2, Maq3</td>
-                                        </tr>
-                                        <tr>
-                                            <td><a href="#">Nome 1</a></td>
-                                            <td>01/01/10</td>
-                                            <td>Maq1, Maq2, Maq3</td>
-                                        </tr>
-                                        <tr>
-                                            <td><a href="#">Nome 1</a></td>
-                                            <td>01/01/10</td>
-                                            <td>Maq1, Maq2, Maq3</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<div class="production-page">
-    <div class="container py-5">
-        <div class="row">
-            <div class="col-12">
-                teste
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
+<script>
+    $( document ).ready(function() {
+        $('.nav-item.home').addClass('active');
+    });
+</script>
 <!-- 
 <div class="content">
     <h1 style="text-align: center;">FELARI</h1>
