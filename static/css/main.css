@@ -1,3 +1,19 @@
+:root {
+    --verde: #0abb10;
+    --verde-escuro: #0b7e0f;
+  }
+
+/* RESET BOOTSTRAP SETTINGS */
+.btn-primary{
+    background-color: var(--verde)!important;
+    border-color: var(--verde)!important;
+}
+
+.btn-primary:hover, .btn-primary:active, .btn-primary:focus{
+    background-color: var(--verde-escuro)!important;
+    border-color: var(--verde-escuro)!important;
+}
+
 body {
     margin: 0;
     font-family: "Roboto", sans-serif;
@@ -115,6 +131,31 @@ text-align: left;
 .historico-container table td{
     text-align: left;
 }
+
+/* PRODUTOS */
+.produtos-container{
+    padding: 15px 35px;
+    background-color: #ededed;
+    border-radius: 15px;
+}
+
+
+.produtos-container table{
+    font-size: 13px;
+    color: black;
+    text-align: left;
+    border: none;
+}
+
+.produtos-container table th{
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.produtos-container table td{
+    text-align: left;
+}
+
 
 /* PRODUTOS */
 .produtos-container{

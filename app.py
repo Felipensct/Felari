@@ -55,6 +55,61 @@ def update(id):
         return redirect('/')
     return render_template('update.html', form=form, task=task)
 
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = TaskForm()
+    if form.validate_on_submit():
+        new_task = aFazer(content=form.content.data)
+        new_task.serial_number = str(random.randint(100000, 999999))
+        db.session.add(new_task)
+        db.session.commit()
+        flash('Produto adicionado com sucesso!')  # Mensagem flash
+        return redirect('/')
+    tasks = aFazer.query.order_by(aFazer.date_created).all()
+    return render_template('login.html', form=form, tasks=tasks, loginPage=True)
+    
+@app.route('/pastProductions', methods=['GET', 'POST'])
+def pastProductions():
+    form = TaskForm()
+    if form.validate_on_submit():
+        new_task = aFazer(content=form.content.data)
+        new_task.serial_number = str(random.randint(100000, 999999))
+        db.session.add(new_task)
+        db.session.commit()
+        flash('Produto adicionado com sucesso!')  # Mensagem flash
+        return redirect('/')
+    tasks = aFazer.query.order_by(aFazer.date_created).all()
+    return render_template('pastProductions.html', form=form, tasks=tasks)
+    
+
+@app.route('/nextOrders', methods=['GET', 'POST'])
+def nextOrders():
+    form = TaskForm()
+    if form.validate_on_submit():
+        new_task = aFazer(content=form.content.data)
+        new_task.serial_number = str(random.randint(100000, 999999))
+        db.session.add(new_task)
+        db.session.commit()
+        flash('Produto adicionado com sucesso!')  # Mensagem flash
+        return redirect('/')
+    tasks = aFazer.query.order_by(aFazer.date_created).all()
+    return render_template('nextOrders.html', form=form, tasks=tasks)
+    
+
+@app.route('/products', methods=['GET', 'POST'])
+def products():
+    form = TaskForm()
+    if form.validate_on_submit():
+        new_task = aFazer(content=form.content.data)
+        new_task.serial_number = str(random.randint(100000, 999999))
+        db.session.add(new_task)
+        db.session.commit()
+        flash('Produto adicionado com sucesso!')  # Mensagem flash
+        return redirect('/')
+    tasks = aFazer.query.order_by(aFazer.date_created).all()
+    return render_template('products.html', form=form, tasks=tasks)
+    
 @app.route('/delete/<int:id>')
 def delete(id):
     task_to_delete = aFazer.query.get_or_404(id)
