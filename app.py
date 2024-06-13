@@ -4,8 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from datetime import datetime
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField, IntegerField
-from wtforms.fields import DateTimeLocalField, DateTimeField
+from wtforms import StringField, SubmitField, PasswordField
 from wtforms.validators import DataRequired, Length
 from flask_login import UserMixin, LoginManager, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -74,13 +73,6 @@ class OrdemProducao(db.Model):
 
     def __repr__(self):
         return f'<OrdemProducao {self.id}>'
-    
-
-# Definir o formulário para edição da ordem de produção
-class EditOrdemForm(FlaskForm):
-    data_prevista = DateTimeLocalField('Data Prevista', format='%Y-%m-%dT%H:%M', validators=[DataRequired()])
-    quantidade = IntegerField('Quantidade', validators=[DataRequired()])
-    submit = SubmitField('Salvar')
 
 class aFazer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -119,7 +111,7 @@ def load_user(user_id):
 def index():
     # Consulta para carregar produtos com seus pontos de acesso
     produtos = Product.query.join(Product.access_points).all()
-    ordens = OrdemProducao.query.order_by(OrdemProducao.data_prevista.asc()).all()
+    ordens = OrdemProducao.query.all()
     form = TaskForm()
     if form.validate_on_submit():
         new_task = aFazer(content=form.content.data)
@@ -201,7 +193,7 @@ def pastProductions():
 @app.route('/nextOrders', methods=['GET', 'POST'])
 @login_required
 def nextOrders():
-    ordens = OrdemProducao.query.order_by(OrdemProducao.data_prevista.asc()).all()
+    ordens = OrdemProducao.query.all()
     form = TaskForm()  # Cria uma instância do formulário TaskForm
 
     return render_template('nextOrders.html', ordens=ordens, form=form)
@@ -230,21 +222,6 @@ def nova_ordem():
 
     flash('Ordem de produção criada com sucesso!')
     return redirect(url_for('index'))
-
-@app.route('/edit_ordem/<int:id>', methods=['GET', 'POST'])
-@login_required
-def edit_ordem(id):
-    ordem = OrdemProducao.query.get_or_404(id)
-    form = EditOrdemForm(obj=ordem)
-    
-    if form.validate_on_submit():
-        ordem.data_prevista = form.data_prevista.data
-        ordem.quantidade = form.quantidade.data
-        db.session.commit()
-        flash('Ordem de produção atualizada com sucesso!')
-        return redirect(url_for('index'))
-
-    return render_template('edit_ordem.html', form=form, ordem=ordem, produto=ordem.produto)
 
 
 
