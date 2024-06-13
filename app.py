@@ -9,10 +9,6 @@ from wtforms.validators import DataRequired, Length
 from flask_login import UserMixin, LoginManager, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 
-
-# # Simulando um banco de dados
-# produtos = []
-
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'
 app.config['SECRET_KEY'] = 'root'
@@ -22,7 +18,6 @@ migrate = Migrate(app, db)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
-
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -42,17 +37,14 @@ class User(db.Model, UserMixin):
         db.session.commit()
         return new_user
 
-# Modelo para o ponto de acesso (máquina)
 class AccessPoint(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), unique=True, nullable=False)
 
-# Formulário para criação de ponto de acesso
 class AccessPointForm(FlaskForm):
     name = StringField('Nome do Ponto de Acesso', validators=[DataRequired()])
     submit = SubmitField('Criar Ponto de Acesso')
 
-# Importe a tabela associativa para a relação many-to-many
 products_access_points = db.Table('products_access_points',
     db.Column('product_id', db.Integer, db.ForeignKey('product.id'), primary_key=True),
     db.Column('access_point_id', db.Integer, db.ForeignKey('access_point.id'), primary_key=True)
@@ -74,6 +66,13 @@ class OrdemProducao(db.Model):
     def __repr__(self):
         return f'<OrdemProducao {self.id}>'
 
+class Serial(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    serial_number = db.Column(db.String(50), unique=True)
+    ordem_id = db.Column(db.Integer, db.ForeignKey('ordem_producao.id'), nullable=False)
+    data_criacao = db.Column(db.DateTime, default=datetime.utcnow)
+    ordem = db.relationship('OrdemProducao', backref=db.backref('seriais', lazy=True))
+
 class aFazer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     serial_number = db.Column(db.String(50), unique=True)
@@ -83,33 +82,27 @@ class aFazer(db.Model):
     def __repr__(self):
         return '<Task %r>' % self.id
 
-
 class LoginForm(FlaskForm):
     username = StringField('Usuário', validators=[DataRequired()])
     password = PasswordField('Senha', validators=[DataRequired()])
     submit = SubmitField('Entrar')
 
-
 class TaskForm(FlaskForm):
     content = StringField(validators=[DataRequired(), Length(min=5, max=200)])
     submit = SubmitField('Atualizar')
-
 
 class RegisterForm(FlaskForm):
     username = StringField('Usuário', validators=[DataRequired(), Length(min=5, max=150)])
     password = PasswordField('Senha', validators=[DataRequired(), Length(min=5, max=150)])
     submit = SubmitField('Registrar')
 
-
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-
 @app.route('/', methods=['GET', 'POST'])
 @login_required
 def index():
-    # Consulta para carregar produtos com seus pontos de acesso
     produtos = Product.query.join(Product.access_points).all()
     ordens = OrdemProducao.query.order_by(OrdemProducao.data_prevista).all()
     form = TaskForm()
@@ -122,10 +115,8 @@ def index():
         return redirect('/')
     
     tasks = aFazer.query.order_by(aFazer.date_created).all()
-    access_points = AccessPoint.query.all()  # Busca todos os pontos de acesso
-
+    access_points = AccessPoint.query.all()
     return render_template('index.html', form=form, tasks=tasks, access_points=access_points, produtos=produtos, ordens=ordens)
-
 
 @app.route('/logout')
 @login_required
@@ -133,7 +124,6 @@ def logout():
     logout_user()
     flash('Logout bem-sucedido!')
     return redirect(url_for('login'))
-
 
 @app.route('/update/<int:id>', methods=['GET', 'POST'])
 @login_required
@@ -145,7 +135,6 @@ def update(id):
         db.session.commit()
         return redirect('/')
     return render_template('update.html', form=form, task=task)
-
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -160,7 +149,6 @@ def login():
             flash('Login inválido. Verifique seu usuário e senha.')
     return render_template('login.html', form=form, loginPage=True)
 
-
 @app.route('/register', methods=['GET', 'POST'])
 @login_required
 def register():
@@ -173,7 +161,6 @@ def register():
         flash('Registro bem-sucedido!')
         return redirect(url_for('index'))
     return render_template('register.html', form=form)
-
 
 @app.route('/pastProductions', methods=['GET', 'POST'])
 @login_required
@@ -189,13 +176,11 @@ def pastProductions():
     tasks = aFazer.query.order_by(aFazer.date_created).all()
     return render_template('pastProductions.html', form=form, tasks=tasks)
 
-
 @app.route('/nextOrders', methods=['GET', 'POST'])
 @login_required
 def nextOrders():
     ordens = OrdemProducao.query.order_by(OrdemProducao.data_prevista).all()
-    form = TaskForm()  # Cria uma instância do formulário TaskForm
-
+    form = TaskForm()
     return render_template('nextOrders.html', ordens=ordens, form=form)
 
 @app.route('/nova_ordem', methods=['POST'])
@@ -215,31 +200,25 @@ def nova_ordem():
         flash('Formato de data e hora inválido. Use o formato YYYY-MM-DDTHH:MM.', 'error')
         return redirect(url_for('index'))
 
-    # Crie a ordem de produção no banco de dados
     nova_ordem = OrdemProducao(produto_id=produto_id, quantidade=quantidade, data_prevista=data_hora_prevista)
     db.session.add(nova_ordem)
     db.session.commit()
-
     flash('Ordem de produção criada com sucesso!')
     return redirect(url_for('index'))
-
-
 
 @app.route('/products', methods=['GET', 'POST'])
 @login_required
 def products():
-    form=TaskForm()
+    form = TaskForm()
     produtos = Product.query.all()
     access_points = AccessPoint.query.all()
 
     if request.method == 'POST':
         produto_nome = request.form['nome']
-        roteiro_id = int(request.form['roteiro'])  # Convertendo para inteiro
+        roteiro_id = int(request.form['roteiro'])
 
-        # Encontrar o produto pelo nome
         produto = Product.query.filter_by(nome=produto_nome).first()
         if produto:
-            # Associar o roteiro ao produto
             access_point = AccessPoint.query.get(roteiro_id)
             if access_point:
                 produto.access_points.append(access_point)
@@ -269,8 +248,7 @@ def create_product():
         flash(f'O produto "{nome_produto}" já existe.', 'error')
         return redirect(url_for('products'))
 
-    novo_produto = Product(nome=nome_produto,
-                           ultima_producao=datetime.strptime(ultima_producao, '%Y-%m-%d').date() if ultima_producao else None)
+    novo_produto = Product(nome=nome_produto, ultima_producao=datetime.strptime(ultima_producao, '%Y-%m-%d').date() if ultima_producao else None)
 
     for roteiro_id in roteiros_selecionados:
         access_point = AccessPoint.query.get(roteiro_id)
@@ -279,7 +257,6 @@ def create_product():
 
     db.session.add(novo_produto)
     db.session.commit()
-
     flash('Produto adicionado com sucesso!')
     return redirect(url_for('products'))
 
@@ -289,20 +266,17 @@ def product(id):
     produto = Product.query.get_or_404(id)
     access_points = AccessPoint.query.all()
     form = TaskForm(obj=produto)
-    
+
     if form.validate_on_submit():
         produto.nome = form.nome.data
-        
-        # Verificar se o campo ultimoProducao foi preenchido no formulário
+
         if form.ultimoProducao.data:
             produto.ultima_producao = form.ultimoProducao.data
         else:
-            produto.ultima_producao = None  # Definir como None se não foi preenchido
+            produto.ultima_producao = None
 
-        # Limpar os roteiros atuais do produto
         produto.access_points.clear()
-        
-        # Adicionar os novos roteiros selecionados
+
         for roteiro_id in request.form.getlist('roteiros'):
             access_point = AccessPoint.query.get(roteiro_id)
             if access_point:
@@ -310,7 +284,7 @@ def product(id):
 
         db.session.commit()
         flash('Produto atualizado com sucesso!')
-        return redirect(url_for('index'))  # Redireciona para a página inicial após a edição
+        return redirect(url_for('index'))
 
     return render_template('product.html', produto=produto, form=form, access_points=access_points)
 
@@ -323,16 +297,13 @@ def update_product(id):
     if form.validate_on_submit():
         produto.nome = form.nome.data
 
-        # Verificar se o campo ultimoProducao foi preenchido no formulário
         if form.ultimoProducao.data:
             produto.ultima_producao = form.ultimoProducao.data
         else:
-            produto.ultima_producao = None  # Definir como None se não foi preenchido
+            produto.ultima_producao = None
 
-        # Limpar os roteiros atuais do produto
         produto.access_points.clear()
 
-        # Adicionar os novos roteiros selecionados
         for roteiro_id in request.form.getlist('roteiros'):
             access_point = AccessPoint.query.get(roteiro_id)
             if access_point:
@@ -340,11 +311,10 @@ def update_product(id):
 
         db.session.commit()
         flash('Produto atualizado com sucesso!')
-        return redirect(url_for('index'))  # Redireciona para a página inicial após a edição
+        return redirect(url_for('index'))
 
     access_points = AccessPoint.query.all()
     return render_template('product.html', produto=produto, form=form, access_points=access_points)
-
 
 @app.route('/delete_product/<int:id>')
 @login_required
@@ -354,7 +324,6 @@ def delete_product(id):
     db.session.commit()
     flash('Produto deletado com sucesso!')
     return redirect('/')
-
 
 @app.route('/delete/<int:id>')
 @login_required
@@ -371,24 +340,44 @@ def create_access_point():
     if form.validate_on_submit():
         name = form.name.data
 
-        # Verificar se o ponto de acesso já existe
         existing_access_point = AccessPoint.query.filter_by(name=name).first()
         if existing_access_point:
             flash('Este ponto de acesso já existe.', 'warning')
             return redirect(url_for('create_access_point'))
 
-        # Criar um novo ponto de acesso
         new_access_point = AccessPoint(name=name)
         db.session.add(new_access_point)
         db.session.commit()
 
-        # Criar um novo usuário com senha padrão
         new_user = User.create_user(username=name)
 
         flash('Ponto de acesso criado com sucesso! Usuário padrão também criado.', 'success')
         return redirect(url_for('create_access_point'))
 
     return render_template('create_access_point.html', form=form)
+
+@app.route('/generate_serials/<int:ordem_id>', methods=['POST'])
+@login_required
+def generate_serials(ordem_id):
+    ordem = OrdemProducao.query.get_or_404(ordem_id)
+    serials = []
+    for i in range(ordem.quantidade):
+        prefix = ''.join(random.choices('ABCDEFGHIJKLMNOPQRSTUVWXYZ', k=3))
+        serial_number = f"{prefix}-{ordem_id}-{i + 1:05}"
+        novo_serial = Serial(serial_number=serial_number, ordem_id=ordem_id)
+        db.session.add(novo_serial)
+        serials.append(novo_serial)
+    db.session.commit()
+    flash('Seriais gerados com sucesso!')
+    return redirect(url_for('view_serials', ordem_id=ordem_id))
+
+@app.route('/view_serials/<int:ordem_id>', methods=['GET'])
+@login_required
+def view_serials(ordem_id):
+    form = TaskForm()
+    ordem = OrdemProducao.query.get_or_404(ordem_id)
+    seriais = Serial.query.filter_by(ordem_id=ordem_id).all()
+    return render_template('view_serials.html', ordem=ordem, seriais=seriais, form=form)
 
 if __name__ == '__main__':
     app.run(debug=True, port='5001')

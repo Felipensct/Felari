@@ -3,12 +3,9 @@
 {% block head %}
 <title>FELARI</title>
 <link rel="styles" href="static\css\styles.css">
-<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"> -->
-
 {% endblock %}
 
 {% block body %}
-<!-- TELA INICIAL -->
 <div class="inicio my-5 container">
     <div class="row">
         <div class="col-12">
@@ -126,6 +123,7 @@
                                 <th>Produto</th>
                                 <th>Quantidade</th>
                                 <th>Data e hora prevista</th>
+                                <th>Ações</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -135,8 +133,13 @@
                                 <td>{{ ordem.produto.nome }}</td>
                                 <td>{{ ordem.quantidade }}</td>
                                 <td>{{ ordem.data_prevista.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                                <td>
+                                    <form method="POST" action="{{ url_for('generate_serials', ordem_id=ordem.id) }}">
+                                        <button type="submit" class="btn btn-warning btn-sm">Iniciar Produção</button>
+                                    </form>
+                                </td>
                             </tr>
-                        {% endfor %}
+                            {% endfor %}
                         </tbody>
                     </table>
                     <small>
@@ -148,14 +151,8 @@
                     <div class="col-12 col-md-8 col-lg-6 ml-auto">
                         <button class="btn btn-warning btn-block">Iniciar próxima</button>
                     </div>
-
                 </div>
-                <div class="row py-1">
-                    <div class="col-12 col-md-8 col-lg-6 ml-auto">
-                        <button class="btn btn-secondary btn-block">Editar sequência</button>
-                    </div>
-                </div>
-                <div class="row">
+                <div class="row pt-1">
                     <div class="col-12 col-md-8 col-lg-6 ml-auto">
                         <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#modalNovaProducao">Nova Produção</button>
                     </div>
@@ -184,9 +181,6 @@
                             {% endfor %}
                         </tbody>
                     </table>
-                    <!-- <small>
-                        <a class="btn btn-link" href="/create_access_point">Novo Ponto de Acesso</a>
-                    </small> -->
                 </div>
         
                 <div class="row mt-3">
@@ -200,46 +194,4 @@
         </div>
     </div>
 </div>
-
-
-<!-- 
-<div class="content">
-    <h1 style="text-align: center;">FELARI</h1>
-    {% if tasks|length < 1 %}
-    <h4 style="text-align: center;"> Não há nenhum produto. Insira um! </h4>
-    {% else %}
-    <div id="table-container">
-    <table>
-        <tr>
-            <th>Produto</th>
-            <th>Adicionado</th>
-            <th>Serial</th>
-            <th>Ações</th>
-        </tr>
-        {% for task in tasks %}
-        <tr>
-            <td>{{ task.content }}</td>
-            <td>{{ task.date_created.strftime('%Y-%m-%d %H:%M:%S') }}</td>
-            <td>{{ task.serial_number }}</td>
-            <td>
-                <a href="/delete/{{task.id}}">Apagar</a>
-                <br>
-                <a href="/update/{{task.id}}">Atualizar</a>
-            </td>
-        </tr>
-    {% endfor %}
-    </table> 
-    </div>   
-    {% endif %}
-
-    <form method="POST" action="{{ url_for('index') }}" style="text-align: center;">
-        {{ form.hidden_tag() }}
-        <div class="form-group" placeholder="table-container">
-            {{ form.content(class_='form-control')}}
-        </div>
-        <div class="form-group">
-            {{ form.submit(class_='btn btn-primary') }}
-        </div>
-    </form>
-</div> -->
 {% endblock %}

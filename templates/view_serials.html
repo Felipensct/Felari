@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Seriais Gerados</title>
+{% endblock %}
+
+{% block body %}
+<div class="container my-5 product">
+    <div class="row">
+        <div class="col-12 product-container">
+            <h2>Seriais Gerados para a Ordem #{{ ordem.id }}</h2>
+            <h4>Produto: {{ ordem.produto.nome }}</h4>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Serial</th>
+                            <th>Data de Criação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for serial in seriais %}
+                        <tr>
+                            <td>{{ serial.serial_number }}</td>
+                            <td>{{ serial.data_criacao.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <a class="btn btn-primary" href="{{ url_for('index') }}">Voltar</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
