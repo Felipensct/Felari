@@ -129,14 +129,17 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <!-- index.html -->
                             {% for ordem in ordens %}
                             <tr>
-                                <td>{{ ordem.id }}</td>
+                                <td><a href="{{ url_for('edit_ordem', id=ordem.id) }}" class="btn-link">{{ ordem.id }}</a></td>
                                 <td>{{ ordem.produto.nome }}</td>
                                 <td>{{ ordem.quantidade }}</td>
-                                <td>{{ ordem.data_prevista.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                                <td>{{ ordem.data_prevista.strftime('%Y-%m-%d %H:%M') }}</td>
+                                <!-- <td><a href="{{ url_for('edit_ordem', id=ordem.id) }}" class="btn btn-primary">Editar</a></td> -->
                             </tr>
-                        {% endfor %}
+                            {% endfor %}
+
                         </tbody>
                     </table>
                     <small>
@@ -152,7 +155,7 @@
                 </div>
                 <div class="row py-1">
                     <div class="col-12 col-md-8 col-lg-6 ml-auto">
-                        <button class="btn btn-secondary btn-block">Editar sequência</button>
+                        <a href="/edit_ordem" class="btn btn-secondary btn-block">Editar sequência</a>
                     </div>
                 </div>
                 <div class="row">
