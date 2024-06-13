@@ -197,3 +197,22 @@ text-align: left;
 .produtos-container table td{
     text-align: left;
 }
+
+
+
+/* create access point */
+
+.access-point-container{
+    padding: 15px 35px;
+    background-color: #ededed;
+    border-radius: 15px;
+}
+
+
+/* PRODUCT */
+
+.product .product-container{
+    padding: 15px 35px;
+    background-color: #ededed;
+    border-radius: 15px;
+}

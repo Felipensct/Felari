@@ -7,7 +7,6 @@
 {% endblock %}
 
 {% block body %}
-<!-- VER TODOS PRODUTOS -->
 <div class="produtos py-5">
     <div class="container">
         <div class="row">
@@ -41,12 +40,22 @@
                                     <tbody>
                                         {% for produto in produtos %}
                                         <tr>
-                                            <td><a href="#">{{ produto.nome }}</a></td>
+                                            <td><a href="{{ url_for('product', id=produto.id) }}">{{ produto.nome }}</a></td>
                                             <td>{{ produto.ultima_producao }}</td>
-                                            <td>{{ produto.roteiro }}</td>
+                                            <td>
+                                                {% if produto.access_points %}
+                                                    {% for access_point in produto.access_points %}
+                                                        {{ access_point.name }}
+                                                        {% if not loop.last %}, {% endif %}
+                                                    {% endfor %}
+                                                {% else %}
+                                                    Nenhum roteiro associado
+                                                {% endif %}
+                                            </td>
                                         </tr>
                                         {% endfor %}
                                     </tbody>
+                                    
                                 </table>
                             </div>
                         </div>

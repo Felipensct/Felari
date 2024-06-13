@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Detalhes do Produto</title>
+<!-- <link rel="stylesheet" href="static/css/styles.css"> -->
+{% endblock %}
+
+{% block body %}
+<div class="container product">
+  <div class="row">
+    <div class="col-12 product-container">
+      <h2>Detalhes do Produto</h2>
+      <form method="POST" action="{{ url_for('product', id=produto.id) }}">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            <label for="nome">Nome do Produto:</label>
+            <input type="text" id="nome" name="nome" class="form-control" value="{{ produto.nome }}" required>
+        </div>
+        <div class="form-group">
+          <label for="ultimoProducao">Última Produção:</label>
+          <input type="date" id="ultimoProducao" name="ultimoProducao" class="form-control"
+                 value="{{ produto.ultima_producao.strftime('%Y-%m-%d') if produto.ultima_producao else '' }}">
+        </div>
+        <div class="form-group">
+            <label for="roteiros">Roteiros:</label>
+            <select id="roteiros" name="roteiros" class="form-control" multiple>
+                {% for roteiro in access_points %}
+                    <option value="{{ roteiro.id }}"
+                        {% if roteiro in produto.access_points %}
+                            selected
+                        {% endif %}
+                    >{{ roteiro.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <!-- <button type="submit" class="btn btn-primary">Salvar</button> -->
+        <a href="{{ url_for('delete_product', id=produto.id) }}" class="btn btn-danger">Excluir</a>
+      </form>    
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -76,39 +76,39 @@
 
     <footer>
             
-<!-- MODAL NOVO PRODUTO -->
-<div class="modal fade" id="modalNovoProduto" tabindex="-1" aria-labelledby="modalNovoProdutoLabel" aria-hidden="true">
-  <div class="modal-dialog">
-      <div class="modal-content">
-          <form method="POST" action="{{ url_for('create_product') }}">
-              <div class="modal-header">
-                  <h5 class="modal-title" id="modalNovoProdutoLabel">Cadastrar novo produto</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                  </button>
-              </div>
-              <div class="modal-body">
-                  <div class="form-group">
-                      <label for="nomeProduto">Nome do Produto</label>
-                      <input type="text" class="form-control" id="nomeProduto" name="nomeProduto" required>
+      <div class="modal fade" id="modalNovoProduto" tabindex="-1" role="dialog" aria-labelledby="modalNovoProdutoLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalNovoProdutoLabel">Novo Produto</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="POST" action="{{ url_for('create_product') }}">
+                  <div class="modal-body">
+                      <div class="form-group">
+                          <label for="nome">Nome do Produto</label>
+                          <input type="text" class="form-control" id="nome" name="nome" required>
+                      </div>
+                      <div class="form-group">
+                        <label for="roteiros">Selecione os Roteiros</label>
+                        <select multiple class="form-control" id="roteiros" name="roteiros" required>
+                            {% for access_point in access_points %}
+                                <option value="{{ access_point.id }}">{{ access_point.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
                   </div>
-                  <div class="form-group">
-                      <label for="ultimoProducao">Última Produção</label>
-                      <input type="date" class="form-control" id="ultimoProducao" name="ultimoProducao" required>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                      <button type="submit" class="btn btn-primary">Salvar Produto</button>
                   </div>
-                  <div class="form-group">
-                      <label for="roteiro">Roteiro</label>
-                      <input type="text" class="form-control" id="roteiro" name="roteiro" placeholder="Maq1, Maq2, Maq3" required>
-                  </div>
-              </div>
-              <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                  <button type="submit" class="btn btn-primary">Salvar</button>
-              </div>
-          </form>
-      </div>
-  </div>
-</div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
 
 
       <!-- MODAL NOVA PRODUÇÃO -->

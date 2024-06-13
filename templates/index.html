@@ -67,36 +67,53 @@
             <div class="inicio-card h-100">
                 <h5>Produtos</h5>
                 <div class="table-responsive">
-                    <table>
+                    <table class="table">
                         <thead>
                             <tr>
                                 <th>Produto</th>
                                 <th>Última Produção</th>
-                                <th>Última Atualização</th>
+                                <th>Roteiro</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {% for produto in produtos %}
-                            <tr>
-                                <td><a href="#">{{ produto.nome }}</a></td>
-                                <td>{{ produto.ultima_producao }}</td>
-                                <td>{{ produto.roteiro }}</td>
-                            </tr>
-                            {% endfor %}
+                            {% if produtos %}
+                                {% for produto in produtos[:4] %}
+                                    <tr>
+                                        <td><a href="{{ url_for('product', id=produto.id) }}">{{ produto.nome }}</a></td>
+                                        <td>{{ produto.ultima_producao }}</td>
+                                        <td>
+                                            {% if produto.access_points %}
+                                                {% set access_points_names = [] %}
+                                                {% for access_point in produto.access_points %}
+                                                    {% set _ = access_points_names.append(access_point.name) %}
+                                                {% endfor %}
+                                                {{ access_points_names | join(', ') }}
+                                            {% else %}
+                                                Sem roteiro definido
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="3">Nenhum produto encontrado.</td>
+                                </tr>
+                            {% endif %}
                         </tbody>
                     </table>
                     <small>
                         <a class="btn btn-link" href="/products">Ver todos</a>
                     </small>
                 </div>
-
+        
                 <div class="row mt-3">
                     <div class="col-8 col-md-6 col-lg-4 ml-auto">
-                        <button class="btn btn-primary btn-block"  data-toggle="modal" data-target="#modalNovoProduto">Novo produto</button>
+                        <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#modalNovoProduto">Novo produto</button>
                     </div>
                 </div>
             </div>
         </div>
+        
 
         <div class="col-12 col-md-6 my-3 h-100">
             <div class="inicio-card h-100">
@@ -147,41 +164,38 @@
                 </div>
             </div>
         </div>
-
         <div class="col-12 col-md-6 my-3 h-100">
             <div class="inicio-card h-100">
                 <h5>Pontos de acesso</h5>
                 <div class="table-responsive">
-                    <table>
+                    <table class="table">
                         <thead>
                             <tr>
                                 <th>Ponto</th>
-                                <th>Quantidade de roteiros</th>
+                                <th>Ações</th>
                             </tr>
                         </thead>
                         <tbody>
+                            {% for access_point in access_points %}
                             <tr>
-                                <td><a href="#">Maq1</a></td>
-                                <td>10</td>
+                                <td>{{ access_point.name }}</td>
+                                <td>
+                                    <a href="#" class="btn btn-danger btn-sm">Excluir</a>
+                                </td>
                             </tr>
-                            <tr>
-                                <td><a href="#">Maq2</a></td>
-                                <td>20</td>
-                            </tr>
-                            <tr>
-                                <td><a href="#">Maq3</a></td>
-                                <td>30</td>
-                            </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
-                    <small>
-                        <a class="btn btn-link" href="/accessPoints">Ver todos</a>
-                    </small>
+                    <!-- <small>
+                        <a class="btn btn-link" href="/create_access_point">Novo Ponto de Acesso</a>
+                    </small> -->
                 </div>
-
+        
                 <div class="row mt-3">
                     <div class="col-12 col-md-8 col-lg-6 ml-auto">
-                        <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#modalNovaMaquina">Nova Máquina</button>
+                        <a class="btn btn-primary" href="/create_access_point">
+                            Nova Máquina
+                        </a>
                     </div>
                 </div>
             </div>
