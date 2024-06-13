@@ -122,23 +122,21 @@
                     <table>
                         <thead>
                             <tr>
+                                <th>OrderID</th>
                                 <th>Produto</th>
+                                <th>Quantidade</th>
                                 <th>Data e hora prevista</th>
                             </tr>
                         </thead>
                         <tbody>
+                            {% for ordem in ordens %}
                             <tr>
-                                <td><a href="#">Nome 1</a></td>
-                                <td>01/01/10 00:00:00</td>
+                                <td>{{ ordem.id }}</td>
+                                <td>{{ ordem.produto.nome }}</td>
+                                <td>{{ ordem.quantidade }}</td>
+                                <td>{{ ordem.data_prevista.strftime('%Y-%m-%d %H:%M:%S') }}</td>
                             </tr>
-                            <tr>
-                                <td><a href="#">Nome 1</a></td>
-                                <td>01/01/10 00:00:00</td>
-                            </tr>
-                            <tr>
-                                <td><a href="#">Nome 1</a></td>
-                                <td>01/01/10 00:00:00</td>
-                            </tr>
+                        {% endfor %}
                         </tbody>
                     </table>
                     <small>

@@ -111,7 +111,7 @@ def load_user(user_id):
 def index():
     # Consulta para carregar produtos com seus pontos de acesso
     produtos = Product.query.join(Product.access_points).all()
-
+    ordens = OrdemProducao.query.all()
     form = TaskForm()
     if form.validate_on_submit():
         new_task = aFazer(content=form.content.data)
@@ -124,7 +124,7 @@ def index():
     tasks = aFazer.query.order_by(aFazer.date_created).all()
     access_points = AccessPoint.query.all()  # Busca todos os pontos de acesso
 
-    return render_template('index.html', form=form, tasks=tasks, access_points=access_points, produtos=produtos)
+    return render_template('index.html', form=form, tasks=tasks, access_points=access_points, produtos=produtos, ordens=ordens)
 
 
 @app.route('/logout')
