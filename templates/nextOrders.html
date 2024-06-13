@@ -31,40 +31,27 @@
                         </div>
                         <div class="col-12 mt-3">
                             <div class="table-responsive">
-                                <table>
+                                <table class="table">
                                     <thead>
                                         <tr>
-                                            <th>OrderID</th>
+                                            <th>ID</th>
                                             <th>Produto</th>
-                                            <th>Data estimada</th>
                                             <th>Quantidade</th>
-                                            <th>Roteiro</th>
+                                            <th>Data Prevista</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>00001</td>
-                                            <td><a href="#">Nome 1</a></td>
-                                            <td>01/01/10</td>
-                                            <td>100</td>
-                                            <td>Maq1, Maq2, Maq3</td>
-                                        </tr>
-                                        <tr>
-                                            <td>00001</td>
-                                            <td><a href="#">Nome 1</a></td>
-                                            <td>01/01/10</td>
-                                            <td>100</td>
-                                            <td>Maq1, Maq2, Maq3</td>
-                                        </tr>
-                                        <tr>
-                                            <td>00001</td>
-                                            <td><a href="#">Nome 1</a></td>
-                                            <td>01/01/10</td>
-                                            <td>100</td>
-                                            <td>Maq1, Maq2, Maq3</td>
-                                        </tr>
+                                        {% for ordem in ordens %}
+                                            <tr>
+                                                <td>{{ ordem.id }}</td>
+                                                <td>{{ ordem.produto.nome }}</td>
+                                                <td>{{ ordem.quantidade }}</td>
+                                                <td>{{ ordem.data_prevista.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                                            </tr>
+                                        {% endfor %}
                                     </tbody>
                                 </table>
+                                
                             </div>
                         </div>
                     </div>

@@ -64,6 +64,16 @@ class Product(db.Model):
     ultima_producao = db.Column(db.DateTime)
     access_points = db.relationship('AccessPoint', secondary=products_access_points, backref=db.backref('products', lazy='dynamic'))
 
+class OrdemProducao(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    produto_id = db.Column(db.Integer, db.ForeignKey('product.id'), nullable=False)
+    produto = db.relationship('Product', backref=db.backref('ordens_producao', lazy=True))
+    quantidade = db.Column(db.Integer, nullable=False)
+    data_prevista = db.Column(db.DateTime, nullable=False)
+
+    def __repr__(self):
+        return f'<OrdemProducao {self.id}>'
+
 class aFazer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     serial_number = db.Column(db.String(50), unique=True)
@@ -183,16 +193,36 @@ def pastProductions():
 @app.route('/nextOrders', methods=['GET', 'POST'])
 @login_required
 def nextOrders():
-    form = TaskForm()
-    if form.validate_on_submit():
-        new_task = aFazer(content=form.content.data)
-        new_task.serial_number = str(random.randint(100000, 999999))
-        db.session.add(new_task)
-        db.session.commit()
-        flash('Produto adicionado com sucesso!')
-        return redirect('/')
-    tasks = aFazer.query.order_by(aFazer.date_created).all()
-    return render_template('nextOrders.html', form=form, tasks=tasks)
+    ordens = OrdemProducao.query.all()
+    form = TaskForm()  # Cria uma instância do formulário TaskForm
+
+    return render_template('nextOrders.html', ordens=ordens, form=form)
+
+@app.route('/nova_ordem', methods=['POST'])
+@login_required
+def nova_ordem():
+    produto_id = request.form.get('produto_id')
+    quantidade = request.form.get('quantidade')
+    data_prevista_str = request.form.get('data_prevista')
+
+    if not produto_id or not quantidade or not data_prevista_str:
+        flash('Todos os campos são obrigatórios.', 'error')
+        return redirect(url_for('index'))
+
+    try:
+        data_hora_prevista = datetime.fromisoformat(data_prevista_str)
+    except ValueError:
+        flash('Formato de data e hora inválido. Use o formato YYYY-MM-DDTHH:MM.', 'error')
+        return redirect(url_for('index'))
+
+    # Crie a ordem de produção no banco de dados
+    nova_ordem = OrdemProducao(produto_id=produto_id, quantidade=quantidade, data_prevista=data_hora_prevista)
+    db.session.add(nova_ordem)
+    db.session.commit()
+
+    flash('Ordem de produção criada com sucesso!')
+    return redirect(url_for('index'))
+
 
 
 @app.route('/products', methods=['GET', 'POST'])
