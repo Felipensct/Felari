@@ -111,7 +111,7 @@ def load_user(user_id):
 def index():
     # Consulta para carregar produtos com seus pontos de acesso
     produtos = Product.query.join(Product.access_points).all()
-    ordens = OrdemProducao.query.all()
+    ordens = OrdemProducao.query.order_by(OrdemProducao.data_prevista).all()
     form = TaskForm()
     if form.validate_on_submit():
         new_task = aFazer(content=form.content.data)
@@ -193,7 +193,7 @@ def pastProductions():
 @app.route('/nextOrders', methods=['GET', 'POST'])
 @login_required
 def nextOrders():
-    ordens = OrdemProducao.query.all()
+    ordens = OrdemProducao.query.order_by(OrdemProducao.data_prevista).all()
     form = TaskForm()  # Cria uma instância do formulário TaskForm
 
     return render_template('nextOrders.html', ordens=ordens, form=form)
@@ -228,6 +228,7 @@ def nova_ordem():
 @app.route('/products', methods=['GET', 'POST'])
 @login_required
 def products():
+    form=TaskForm()
     produtos = Product.query.all()
     access_points = AccessPoint.query.all()
 
@@ -251,7 +252,7 @@ def products():
 
         return redirect(url_for('products'))
 
-    return render_template('products.html', produtos=produtos, access_points=access_points)
+    return render_template('products.html', produtos=produtos, access_points=access_points, form=form)
 
 @app.route('/create_product', methods=['POST'])
 def create_product():
