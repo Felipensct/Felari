@@ -1,3 +1,4 @@
+import json
 import random
 from flask import Flask, render_template, url_for, request, redirect, flash
 from flask_sqlalchemy import SQLAlchemy
@@ -8,6 +9,9 @@ from wtforms import StringField, SubmitField, PasswordField
 from wtforms.validators import DataRequired, Length
 from flask_login import UserMixin, LoginManager, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
+import pandas as pd
+from flask import jsonify
+
 
 app = Flask(__name__)
 app.secret_key = 'supersecretkey'
@@ -103,9 +107,12 @@ class TraceSerial(db.Model):
     date_done = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     access_point = db.Column(db.String(100), nullable=False)
     user = db.Column(db.String(150), nullable=False)
+    ordem_id = db.Column(db.Integer, db.ForeignKey('ordem_producao.id'), nullable=False)  # Adicione esta linha
+    ordem = db.relationship('OrdemProducao', backref=db.backref('trace_serials', lazy=True))
 
     def __repr__(self):
         return f'<TraceSerial {self.serial}>'
+
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -466,6 +473,37 @@ def delete_all_trace_serials():
     db.session.commit()
     flash('Todos os seriais foram deletados com sucesso!')
     return redirect(url_for('showTraceSerial'))
+
+@app.route('/dashboard', methods=['GET', 'POST'])
+@login_required
+def dashboard():
+    ordens = OrdemProducao.query.filter_by(status=3).all()
+    selected_ordem_id = request.form.get('ordem_id')
+    form=TaskForm()
+    chart_data = {
+        'labels': [],
+        'expectedData': [],
+        'trackedData': []
+    }
+
+    if selected_ordem_id:
+        ordem = OrdemProducao.query.get(int(selected_ordem_id))
+        if ordem:
+            produto = ordem.produto
+            expected_quantity = ordem.quantidade * len(produto.access_points)
+            tracked_data = []
+
+            for ap in produto.access_points:
+                tracked_count = TraceSerial.query.filter_by(ordem_id=ordem.id, access_point=ap.name).count()
+                tracked_data.append(tracked_count)
+
+            chart_data = {
+                'labels': [ap.name for ap in produto.access_points],
+                'expectedData': [expected_quantity] * len(produto.access_points),
+                'trackedData': tracked_data
+            }
+
+    return render_template('dashboard.html', ordens=ordens, chart_data=chart_data, form=form)
 
 if __name__ == '__main__':
     app.run(debug=True, port='5001')
