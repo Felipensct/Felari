@@ -239,7 +239,7 @@ def nova_ordem():
         flash('Formato de data e hora inválido. Use o formato YYYY-MM-DDTHH:MM.', 'error')
         return redirect(url_for('index'))
 
-    nova_ordem = OrdemProducao(produto_id=produto_id, quantidade=quantidade, data_prevista=data_hora_prevista)
+    nova_ordem = OrdemProducao(produto_id=produto_id, quantidade=quantidade, data_prevista=data_hora_prevista, status=1)
     db.session.add(nova_ordem)
     db.session.commit()
     flash('Ordem de produção criada com sucesso!')
@@ -383,6 +383,24 @@ def create_access_point():
 
     return render_template('create_access_point.html', form=form)
 
+@app.route('/delete_access_point/<int:access_point_id>', methods=['POST'])
+@login_required
+def delete_access_point(access_point_id):
+    # Obter o ponto de acesso
+    access_point = AccessPoint.query.get_or_404(access_point_id)
+
+    # Deletar todas as associações na tabela products_access_points
+    db.session.execute(products_access_points.delete().where(products_access_points.c.access_point_id == access_point_id))
+
+    # Finalmente, deletar o ponto de acesso
+    db.session.delete(access_point)
+
+    # Commit das alterações
+    db.session.commit()
+    
+    flash('Ponto de acesso deletado com sucesso!')
+    return redirect(url_for('index'))
+
 @app.route('/generate_serials/<int:ordem_id>', methods=['POST'])
 @login_required
 def generate_serials(ordem_id):
@@ -401,6 +419,32 @@ def generate_serials(ordem_id):
     flash('Seriais gerados com sucesso!')
     return redirect('/')
 
+@app.route('/delete_ordem/<int:ordem_id>', methods=['POST'])
+@login_required
+def delete_ordem(ordem_id):
+    # Obter a ordem de produção
+    ordem = OrdemProducao.query.get_or_404(ordem_id)
+
+    # Deletar todos os seriais relacionados à ordem de produção
+    seriais = Serial.query.filter_by(ordem_id=ordem_id).all()
+    for serial in seriais:
+        db.session.delete(serial)
+
+    # Deletar todos os trace_serials relacionados à ordem de produção
+    trace_serials = TraceSerial.query.filter_by(ordem_id=ordem_id).all()
+    for trace_serial in trace_serials:
+        db.session.delete(trace_serial)
+
+    # Finalmente, deletar a ordem de produção
+    db.session.delete(ordem)
+
+    # Commit das alterações
+    db.session.commit()
+    
+    flash('Ordem de produção e todos os dados relacionados foram deletados com sucesso!')
+    return redirect(url_for('index'))
+
+
 @app.route('/view_serials/<int:ordem_id>', methods=['GET'])
 @login_required
 def view_serials(ordem_id):
@@ -412,10 +456,20 @@ def view_serials(ordem_id):
 @app.route('/finalize_production/<int:ordem_id>', methods=['POST'])
 @login_required
 def finalize_production(ordem_id):
+    # Obter a ordem de produção
     ordem = OrdemProducao.query.get_or_404(ordem_id)
+    
+    # Atualizar o status da ordem de produção
     ordem.status = 3
+    
+    # Atualizar a data de ultima_producao do produto relacionado
+    produto = ordem.produto
+    produto.ultima_producao = datetime.utcnow()
+    
+    # Commit das alterações
     db.session.commit()
-    flash('Produção finalizada com sucesso!')
+    
+    flash('Produção finalizada com sucesso e data de última produção atualizada!')
     return redirect(url_for('view_serials', ordem_id=ordem_id))
 
 

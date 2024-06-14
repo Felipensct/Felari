@@ -182,6 +182,11 @@
                             {% for access_point in access_points %}
                             <tr>
                                 <td>{{ access_point.name }}</td>
+                                <td>
+                                    <form method="POST" action="{{ url_for('delete_access_point', access_point_id=access_point.id) }}">
+                                        <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
+                                    </form>
+                                </td>
                                 <!-- <td>
                                     <a href="#" class="btn btn-danger btn-sm">Excluir</a>
                                 </td> -->

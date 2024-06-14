@@ -53,6 +53,10 @@
                                                     <form method="POST" action="{{ url_for('generate_serials', ordem_id=ordem.id) }}">
                                                         <button type="submit" class="btn btn-warning btn-sm">Iniciar Produção</button>
                                                     </form>
+                                                    <form method="POST" action="{{ url_for('delete_ordem', ordem_id=ordem.id) }}">
+                                                        <button type="submit" class="btn btn-danger btn-sm">Deletar Produção</button>
+                                                    </form>
+                                                    
                                                 </td>
                                             </tr>
                                             {% endif %}
