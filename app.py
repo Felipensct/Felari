@@ -435,6 +435,7 @@ def productionPage():
 @login_required
 def process_serial():
     produto_id = request.form.get('produtoAtivo')
+    access_point = request.form.get('accessPoint')
     serial_number = request.form.get('leituraSerial')
 
     if not produto_id or not serial_number:
@@ -443,12 +444,12 @@ def process_serial():
 
     trace_serial = TraceSerial(
         serial=serial_number,
-        access_point=current_user.username,  # Assuming access point is the current user for this example
+        access_point=access_point,  # Assuming access point is the current user for this example
         user=current_user.username
     )
     db.session.add(trace_serial)
     db.session.commit()
-    flash('Serial processado com sucesso!')
+    flash(f'Serial {serial_number} processado com sucesso!')
     return redirect(url_for('productionPage'))
 
 @app.route('/trace_serials', methods=['GET'])
