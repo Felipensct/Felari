@@ -61,7 +61,7 @@
                     </small>
                 </div>
                 <div class="row mt-3">
-                    <div class="col-8 col-md-6 col-lg-4 ml-auto">
+                    <div class="col-12 col-md-6 col-lg-6 ml-auto">
                         <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#modalNovaProducao">Nova Produção</button>
                     </div>
                 </div>
@@ -112,7 +112,7 @@
                 </div>
         
                 <div class="row mt-3">
-                    <div class="col-8 col-md-6 col-lg-4 ml-auto">
+                    <div class="col-12 col-md-6 col-lg-6 ml-auto">
                         <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#modalNovoProduto">Novo produto</button>
                     </div>
                 </div>
@@ -163,7 +163,7 @@
                     </div>
                 </div> -->
                 <div class="row pt-1">
-                    <div class="col-12 col-md-8 col-lg-6 ml-auto">
+                    <div class="col-12 col-md-6 col-lg-6 ml-auto">
                         <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#modalNovaProducao">Nova Produção</button>
                     </div>
                 </div>
@@ -177,16 +177,16 @@
                         <thead>
                             <tr>
                                 <th>Ponto</th>
-                                <th>Ações</th>
+                                <!-- <th>Ações</th> -->
                             </tr>
                         </thead>
                         <tbody>
                             {% for access_point in access_points %}
                             <tr>
                                 <td>{{ access_point.name }}</td>
-                                <td>
+                                <!-- <td>
                                     <a href="#" class="btn btn-danger btn-sm">Excluir</a>
-                                </td>
+                                </td> -->
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -194,8 +194,8 @@
                 </div>
         
                 <div class="row mt-3">
-                    <div class="col-12 col-md-8 col-lg-6 ml-auto">
-                        <a class="btn btn-primary" href="/create_access_point">
+                    <div class="col-12 col-md-6 col-lg-6 ml-auto">
+                        <a class="btn btn-primary btn-block" href="/create_access_point">
                             Nova Máquina
                         </a>
                     </div>
