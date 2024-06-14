@@ -38,16 +38,24 @@
                                             <th>Produto</th>
                                             <th>Quantidade</th>
                                             <th>Data Prevista</th>
+                                            <th>Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {% for ordem in ordens %}
-                                            <tr>
+                                        {% if ordem.status in [1] %}
+                                            <tr class="ordemDeProducao">
                                                 <td>{{ ordem.id }}</td>
                                                 <td>{{ ordem.produto.nome }}</td>
                                                 <td>{{ ordem.quantidade }}</td>
                                                 <td>{{ ordem.data_prevista.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                                                <td>
+                                                    <form method="POST" action="{{ url_for('generate_serials', ordem_id=ordem.id) }}">
+                                                        <button type="submit" class="btn btn-warning btn-sm">Iniciar Produção</button>
+                                                    </form>
+                                                </td>
                                             </tr>
+                                            {% endif %}
                                         {% endfor %}
                                     </tbody>
                                 </table>

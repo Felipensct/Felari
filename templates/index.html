@@ -24,7 +24,6 @@
                                 <th>Produto</th>
                                 <th>Data</th>
                                 <th>Produzida</th>
-                                <th>Rastreada</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -35,7 +34,6 @@
                                     <td>{{ ordem.id }}</td>
                                     <td>{{ ordem.produto.nome }}</td>
                                     <td>{{ ordem.quantidade }}</td>
-                                    <td> 0 </td>
                                     <td>
                                         {% if ordem.status == 2 %}
                                         <a class="btn btn-secondary btn-sm" href="/view_serials/{{ordem.id}}">Iniciado</a>

@@ -184,6 +184,26 @@ def register():
 @login_required
 def pastProductions():
     form = TaskForm()
+    # Obtém os parâmetros do filtro do request
+    produto_nome = request.args.get('produto')
+    data_inicial = request.args.get('data_inicial')
+    data_final = request.args.get('data_final')
+
+    # Consulta base de dados inicial
+    query = OrdemProducao.query.order_by(OrdemProducao.data_prevista)
+
+    # Aplica os filtros, se existirem
+    if produto_nome:
+        query = query.filter(OrdemProducao.produto.has(nome=produto_nome))
+
+    if data_inicial and data_final:
+        data_inicial_dt = datetime.strptime(data_inicial, '%Y-%m-%d')
+        data_final_dt = datetime.strptime(data_final, '%Y-%m-%d')
+        query = query.filter(OrdemProducao.data_prevista.between(data_inicial_dt, data_final_dt))
+
+    # Executa a consulta
+    ordens = query.all()
+
     if form.validate_on_submit():
         new_task = aFazer(content=form.content.data)
         new_task.serial_number = str(random.randint(100000, 999999))
@@ -191,8 +211,9 @@ def pastProductions():
         db.session.commit()
         flash('Produto adicionado com sucesso!')
         return redirect('/')
+    
     tasks = aFazer.query.order_by(aFazer.date_created).all()
-    return render_template('pastProductions.html', form=form, tasks=tasks)
+    return render_template('pastProductions.html', form=form, tasks=tasks, ordens=ordens)
 
 @app.route('/nextOrders', methods=['GET', 'POST'])
 @login_required
@@ -233,21 +254,9 @@ def products():
 
     if request.method == 'POST':
         produto_nome = request.form['nome']
-        roteiro_id = int(request.form['roteiro'])
-
-        produto = Product.query.filter_by(nome=produto_nome).first()
-        if produto:
-            access_point = AccessPoint.query.get(roteiro_id)
-            if access_point:
-                produto.access_points.append(access_point)
-                db.session.commit()
-                flash('Roteiro associado ao produto com sucesso!')
-            else:
-                flash('Roteiro não encontrado.', 'error')
-        else:
-            flash('Produto não encontrado.', 'error')
-
-        return redirect(url_for('products'))
+        
+        # Filtrar produtos pelo nome
+        produtos = Product.query.filter(Product.nome.ilike(f"%{produto_nome}%")).all()
 
     return render_template('products.html', produtos=produtos, access_points=access_points, form=form)
 
