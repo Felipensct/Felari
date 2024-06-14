@@ -383,6 +383,16 @@ def view_serials(ordem_id):
     seriais = Serial.query.filter_by(ordem_id=ordem_id).all()
     return render_template('view_serials.html', ordem=ordem, seriais=seriais, form=form)
 
+@app.route('/finalize_production/<int:ordem_id>', methods=['POST'])
+@login_required
+def finalize_production(ordem_id):
+    ordem = OrdemProducao.query.get_or_404(ordem_id)
+    ordem.status = 3
+    db.session.commit()
+    flash('Produção finalizada com sucesso!')
+    return redirect(url_for('view_serials', ordem_id=ordem_id))
+
+
 @app.route('/delete_serials/<int:ordem_id>', methods=['POST'])
 @login_required
 def delete_serials(ordem_id):

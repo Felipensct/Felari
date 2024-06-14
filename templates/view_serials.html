@@ -28,7 +28,18 @@
                     </tbody>
                 </table>
             </div>
-            <a class="btn btn-primary" href="{{ url_for('index') }}">Voltar</a>
+            <div class="row">
+              {% if ordem.status == 2 %}
+              <div class="col-12 col-md-4 mr-auto py-2">
+                <form method="POST" action="{{ url_for('finalize_production', ordem_id=ordem.id) }}" class="w-100">
+                    <button type="submit" class="btn btn-primary w-100">Finalizar Produção</button>
+                </form>
+              </div>
+              {% endif %}
+              <div class="col-12 col-md-4 ml-auto py-2">
+                <a class="btn btn-secondary w-100" href="{{ url_for('index') }}">Voltar</a>
+              </div>
+            </div>
         </div>
     </div>
 </div>
