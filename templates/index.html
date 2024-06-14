@@ -128,17 +128,24 @@
                         </thead>
                         <tbody>
                             {% for ordem in ordens %}
-                            <tr>
-                                <td>{{ ordem.id }}</td>
-                                <td>{{ ordem.produto.nome }}</td>
-                                <td>{{ ordem.quantidade }}</td>
-                                <td>{{ ordem.data_prevista.strftime('%Y-%m-%d %H:%M:%S') }}</td>
-                                <td>
-                                    <form method="POST" action="{{ url_for('generate_serials', ordem_id=ordem.id) }}">
-                                        <button type="submit" class="btn btn-warning btn-sm">Iniciar Produção</button>
-                                    </form>
-                                </td>
-                            </tr>
+                                <tr class="ordemDeProducao">
+                                    <td>{{ ordem.id }}</td>
+                                    <td>{{ ordem.produto.nome }}</td>
+                                    <td>{{ ordem.quantidade }}</td>
+                                    <td>{{ ordem.data_prevista.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                                    <td>
+                                        {% if ordem.status == 1 %}
+                                        <form method="POST" action="{{ url_for('generate_serials', ordem_id=ordem.id) }}">
+                                            <button type="submit" class="btn btn-warning btn-sm">Iniciar Produção</button>
+                                        </form>
+                                        {% elif ordem.status == 2 %}
+                                            <a class="btn btn-secondary btn-sm" href="/view_serials/{{ordem.id}}">Iniciado</a>
+                                            <form action="{{ url_for('delete_serials', ordem_id=ordem.id) }}" method="post">
+                                                <button type="submit" class="btn btn-danger btn-sm">Zerar Seriais</button>
+                                            </form>
+                                        {% endif %}
+                                    </td>
+                                </tr>
                             {% endfor %}
                         </tbody>
                     </table>
@@ -147,11 +154,11 @@
                     </small>
                 </div>
 
-                <div class="row mt-3">
+                <!-- <div class="row mt-3">
                     <div class="col-12 col-md-8 col-lg-6 ml-auto">
                         <button class="btn btn-warning btn-block">Iniciar próxima</button>
                     </div>
-                </div>
+                </div> -->
                 <div class="row pt-1">
                     <div class="col-12 col-md-8 col-lg-6 ml-auto">
                         <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#modalNovaProducao">Nova Produção</button>

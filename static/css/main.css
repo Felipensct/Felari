@@ -216,3 +216,18 @@ text-align: left;
     background-color: #ededed;
     border-radius: 15px;
 }
+
+
+
+
+td button, td a.btn{
+    font-size: 11px!important;
+}
+
+/* ORDEM */
+tr.ordemDeProducao .btn{
+    font-size: 10px !important;
+    padding: 4px !important;
+    width: calc(100% - 2px);
+    margin: 1px;
+}

@@ -62,6 +62,7 @@ class OrdemProducao(db.Model):
     produto = db.relationship('Product', backref=db.backref('ordens_producao', lazy=True))
     quantidade = db.Column(db.Integer, nullable=False)
     data_prevista = db.Column(db.DateTime, nullable=False)
+    status = db.Column(db.Integer, nullable=False)
 
     def __repr__(self):
         return f'<OrdemProducao {self.id}>'
@@ -361,12 +362,15 @@ def create_access_point():
 def generate_serials(ordem_id):
     ordem = OrdemProducao.query.get_or_404(ordem_id)
     serials = []
+    prefix = ''.join(random.choices('ABCDEFGHIJKLMNOPQRSTUVWXYZ', k=3))
     for i in range(ordem.quantidade):
-        prefix = ''.join(random.choices('ABCDEFGHIJKLMNOPQRSTUVWXYZ', k=3))
-        serial_number = f"{prefix}-{ordem_id}-{i + 1:05}"
+        serial_number = f"{prefix}{ordem_id}-{i + 1:05}"
         novo_serial = Serial(serial_number=serial_number, ordem_id=ordem_id)
         db.session.add(novo_serial)
         serials.append(novo_serial)
+
+        # Atualiza o status da ordem para 2
+    ordem.status = 2
     db.session.commit()
     flash('Seriais gerados com sucesso!')
     return redirect(url_for('view_serials', ordem_id=ordem_id))
@@ -378,6 +382,26 @@ def view_serials(ordem_id):
     ordem = OrdemProducao.query.get_or_404(ordem_id)
     seriais = Serial.query.filter_by(ordem_id=ordem_id).all()
     return render_template('view_serials.html', ordem=ordem, seriais=seriais, form=form)
+
+@app.route('/delete_serials/<int:ordem_id>', methods=['POST'])
+@login_required
+def delete_serials(ordem_id):
+    ordem = OrdemProducao.query.get_or_404(ordem_id)
+    seriais = Serial.query.filter_by(ordem_id=ordem_id).all()
+    
+    if not seriais:
+        flash('Não há seriais para deletar.')
+        ordem.status = 1
+        db.session.commit()
+        return redirect(url_for('view_serials', ordem_id=ordem_id))
+    
+    for serial in seriais:
+        db.session.delete(serial)
+    
+    ordem.status = 1
+    db.session.commit()
+    flash('Todos os seriais foram deletados com sucesso!')
+    return redirect(url_for('view_serials', ordem_id=ordem_id))
 
 if __name__ == '__main__':
     app.run(debug=True, port='5001')
