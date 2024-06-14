@@ -35,7 +35,7 @@
                                     <td>{{ ordem.id }}</td>
                                     <td>{{ ordem.produto.nome }}</td>
                                     <td>{{ ordem.quantidade }}</td>
-                                    <td>{{ ordem.data_prevista.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                                    <td> 0 </td>
                                     <td>
                                         {% if ordem.status == 2 %}
                                         <a class="btn btn-secondary btn-sm" href="/view_serials/{{ordem.id}}">Iniciado</a>

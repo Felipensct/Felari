@@ -97,6 +97,16 @@ class RegisterForm(FlaskForm):
     password = PasswordField('Senha', validators=[DataRequired(), Length(min=5, max=150)])
     submit = SubmitField('Registrar')
 
+class TraceSerial(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    serial = db.Column(db.String(50), nullable=False)
+    date_done = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    access_point = db.Column(db.String(100), nullable=False)
+    user = db.Column(db.String(150), nullable=False)
+
+    def __repr__(self):
+        return f'<TraceSerial {self.serial}>'
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -412,6 +422,49 @@ def delete_serials(ordem_id):
     db.session.commit()
     flash('Todos os seriais foram deletados com sucesso!')
     return redirect('/')
+
+@app.route('/production_page', methods=['GET', 'POST'])
+@login_required
+def productionPage():
+    form = TaskForm()
+    ordens = OrdemProducao.query.filter_by(status=2).all()  # Filter orders by status 2
+    access_points = AccessPoint.query.all()
+    return render_template('production_page.html', ordens=ordens, access_points=access_points, form=form)
+
+@app.route('/process_serial', methods=['POST'])
+@login_required
+def process_serial():
+    produto_id = request.form.get('produtoAtivo')
+    serial_number = request.form.get('leituraSerial')
+
+    if not produto_id or not serial_number:
+        flash('Todos os campos são obrigatórios.', 'error')
+        return redirect(url_for('productionPage'))
+
+    trace_serial = TraceSerial(
+        serial=serial_number,
+        access_point=current_user.username,  # Assuming access point is the current user for this example
+        user=current_user.username
+    )
+    db.session.add(trace_serial)
+    db.session.commit()
+    flash('Serial processado com sucesso!')
+    return redirect(url_for('productionPage'))
+
+@app.route('/trace_serials', methods=['GET'])
+@login_required
+def showTraceSerial():
+    form = TaskForm()
+    trace_serials = TraceSerial.query.all()
+    return render_template('trace_serials.html', trace_serials=trace_serials, form=form)
+
+@app.route('/delete_all_trace_serials', methods=['POST'])
+@login_required
+def delete_all_trace_serials():
+    db.session.query(TraceSerial).delete()
+    db.session.commit()
+    flash('Todos os seriais foram deletados com sucesso!')
+    return redirect(url_for('showTraceSerial'))
 
 if __name__ == '__main__':
     app.run(debug=True, port='5001')

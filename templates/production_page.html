@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Produção ativa</title>
+{% endblock %}
+
+{% block body %}
+<div class="container product">
+  <div class="row">
+    <div class="col-12 product-container">
+      <h2>Produção</h2>
+      
+      <form method="POST" action="{{ url_for('process_serial') }}">
+        <div class="form-group">
+          <label for="produtoAtivo">Escolha um produto ativo</label>
+          <select class="form-control" id="produtoAtivo" name="produtoAtivo">
+            {% for ordem in ordens %}
+              <option value="{{ ordem.id }}">
+                #{{ ordem.id }} - {{ ordem.produto.nome }}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="accessPoint">Escolha um Ponto de Acesso</label>
+          <select class="form-control" id="accessPoint" name="accessPoint">
+            {% for access_point in access_points %}
+              <option value="{{ access_point.name }}">
+                {{ access_point.name }}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="leituraSerial">Leitura de serial</label>
+          <input type="text" class="form-control" id="leituraSerial" name="leituraSerial" />
+        </div>
+        <button type="submit" class="btn btn-primary">Enviar</button>
+      </form>
+        
+    </div>
+  </div>
+</div>
+{% endblock %}

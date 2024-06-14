@@ -35,17 +35,25 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
               <ul class="navbar-nav">
-                <li class="nav-item historico">
-                  <a class="nav-link" href="/pastProductions">Histórico de Produção</a>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+                    Administração
+                  </a>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" href="/pastProductions">Histórico de Produção</a>
+                    <a class="dropdown-item" href="/nextOrders">Próximas ordens</a>
+                    <a class="dropdown-item" href="/products">Produtos</a>
+                    <a class="dropdown-item" href="/accessPoint">Ponto de acesso</a>
+                  </div>
                 </li>
-                <li class="nav-item proximas">
-                  <a class="nav-link" href="/nextOrders">Próximas ordens</a>
-                </li>
-                <li class="nav-item produtos">
-                  <a class="nav-link" href="/products">Produtos</a>
-                </li>
-                <li class="nav-item pontoDeAcesso">
-                  <a class="nav-link" href="/accessPoint">Ponto de acesso</a>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+                    Produção
+                  </a>
+                  <div class="dropdown-menu">
+                    <a class="dropdown-item" href="/production_page">Produção</a>
+                    <a class="dropdown-item" href="/trace_serials">Seriais rastreados</a>
+                  </div>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="/logout">Sair</a>
