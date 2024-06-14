@@ -486,10 +486,16 @@ def dashboard():
         'trackedData': []
     }
 
+    selected_produto_nome = ""
+    selected_ordem_numero = ""
+
     if selected_ordem_id:
         ordem = OrdemProducao.query.get(int(selected_ordem_id))
         if ordem:
             produto = ordem.produto
+            selected_produto_nome = produto.nome
+            selected_ordem_numero = ordem.id
+            
             # Puxa os seriais da tabela Serial usando ordem_id
             seriais = Serial.query.filter_by(ordem_id=ordem.id).all()
             expected_quantity = ordem.quantidade  # Quantidade esperada é a quantidade de seriais da ordem
@@ -516,8 +522,7 @@ def dashboard():
                 'trackedData': list(tracked_data.values())
             }
 
-    return render_template('dashboard.html', ordens=ordens, chart_data=chart_data, form=form)
-
+    return render_template('dashboard.html', ordens=ordens, chart_data=chart_data, form=form, selected_produto_nome=selected_produto_nome, selected_ordem_numero=selected_ordem_numero)
 
 
 if __name__ == '__main__':
