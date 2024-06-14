@@ -479,7 +479,7 @@ def delete_all_trace_serials():
 def dashboard():
     ordens = OrdemProducao.query.filter_by(status=3).all()
     selected_ordem_id = request.form.get('ordem_id')
-    form=TaskForm()
+    form = TaskForm()
     chart_data = {
         'labels': [],
         'expectedData': [],
@@ -490,20 +490,35 @@ def dashboard():
         ordem = OrdemProducao.query.get(int(selected_ordem_id))
         if ordem:
             produto = ordem.produto
-            expected_quantity = ordem.quantidade * len(produto.access_points)
-            tracked_data = []
+            # Puxa os seriais da tabela Serial usando ordem_id
+            seriais = Serial.query.filter_by(ordem_id=ordem.id).all()
+            expected_quantity = ordem.quantidade  # Quantidade esperada é a quantidade de seriais da ordem
 
-            for ap in produto.access_points:
-                tracked_count = TraceSerial.query.filter_by(ordem_id=ordem.id, access_point=ap.name).count()
-                tracked_data.append(tracked_count)
+            # Inicializar as contagens para cada ponto de acesso
+            tracked_data = {ap.name: 0 for ap in produto.access_points}
+
+            # Debug prints
+            print(f"Ordem: {ordem.id}, Produto: {produto.nome}")
+            print(f"Access Points: {[ap.name for ap in produto.access_points]}")
+            print(f"Seriais: {[serial.serial_number for serial in seriais]}")
+
+            # Verificar cada serial da ordem em cada ponto de acesso
+            for serial in seriais:
+                for ap in produto.access_points:
+                    count = db.session.query(TraceSerial).filter(TraceSerial.serial == serial.serial_number, TraceSerial.access_point == ap.name).count()
+                    tracked_data[ap.name] += count
+                    # Debug print
+                    print(f"Serial: {serial.serial_number}, Access Point Name: {ap.name}, Count: {count}")
 
             chart_data = {
                 'labels': [ap.name for ap in produto.access_points],
-                'expectedData': [expected_quantity] * len(produto.access_points),
-                'trackedData': tracked_data
+                'expectedData': [expected_quantity] * len(tracked_data),
+                'trackedData': list(tracked_data.values())
             }
 
     return render_template('dashboard.html', ordens=ordens, chart_data=chart_data, form=form)
+
+
 
 if __name__ == '__main__':
     app.run(debug=True, port='5001')
