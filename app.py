@@ -373,7 +373,7 @@ def generate_serials(ordem_id):
     ordem.status = 2
     db.session.commit()
     flash('Seriais gerados com sucesso!')
-    return redirect(url_for('view_serials', ordem_id=ordem_id))
+    return redirect('/')
 
 @app.route('/view_serials/<int:ordem_id>', methods=['GET'])
 @login_required
@@ -393,7 +393,7 @@ def delete_serials(ordem_id):
         flash('Não há seriais para deletar.')
         ordem.status = 1
         db.session.commit()
-        return redirect(url_for('view_serials', ordem_id=ordem_id))
+        return redirect('/')
     
     for serial in seriais:
         db.session.delete(serial)
@@ -401,7 +401,7 @@ def delete_serials(ordem_id):
     ordem.status = 1
     db.session.commit()
     flash('Todos os seriais foram deletados com sucesso!')
-    return redirect(url_for('view_serials', ordem_id=ordem_id))
+    return redirect('/')
 
 if __name__ == '__main__':
     app.run(debug=True, port='5001')

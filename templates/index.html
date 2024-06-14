@@ -25,27 +25,30 @@
                                 <th>Data</th>
                                 <th>Produzida</th>
                                 <th>Rastreada</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td><a href="#">Nome 1</a></td>
-                                <td>01/01/10</td>
-                                <td>100</td>
-                                <td>99</td>
-                            </tr>
-                            <tr>
-                                <td><a href="#">Nome 1</a></td>
-                                <td>01/01/10</td>
-                                <td>100</td>
-                                <td>99</td>
-                            </tr>
-                            <tr>
-                                <td><a href="#">Nome 1</a></td>
-                                <td>01/01/10</td>
-                                <td>100</td>
-                                <td>99</td>
-                            </tr>
+                            {% for ordem in ordens %}
+                                {% if ordem.status in [2,3] %}
+                                <tr class="ordemDeProducao">
+                                    <td>{{ ordem.id }}</td>
+                                    <td>{{ ordem.produto.nome }}</td>
+                                    <td>{{ ordem.quantidade }}</td>
+                                    <td>{{ ordem.data_prevista.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                                    <td>
+                                        {% if ordem.status == 2 %}
+                                        <a class="btn btn-secondary btn-sm" href="/view_serials/{{ordem.id}}">Iniciado</a>
+                                        <form action="{{ url_for('delete_serials', ordem_id=ordem.id) }}" method="post">
+                                            <button type="submit" class="btn btn-danger btn-sm">Zerar Seriais</button>
+                                        </form>
+                                        {% elif ordem.status == 3 %}
+                                            <a class="btn btn-outline-secondary btn-sm" href="/view_serials/{{ordem.id}}">Finalizado</a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endif %}
+                            {% endfor %}
                         </tbody>
                     </table>
                     <small>
@@ -128,25 +131,20 @@
                         </thead>
                         <tbody>
                             {% for ordem in ordens %}
-                                <tr class="ordemDeProducao">
-                                    <td>{{ ordem.id }}</td>
-                                    <td>{{ ordem.produto.nome }}</td>
-                                    <td>{{ ordem.quantidade }}</td>
-                                    <td>{{ ordem.data_prevista.strftime('%Y-%m-%d %H:%M:%S') }}</td>
-                                    <td>
-                                        {% if ordem.status == 1 %}
-                                        <form method="POST" action="{{ url_for('generate_serials', ordem_id=ordem.id) }}">
-                                            <button type="submit" class="btn btn-warning btn-sm">Iniciar Produção</button>
-                                        </form>
-                                        {% elif ordem.status == 2 %}
-                                            <a class="btn btn-secondary btn-sm" href="/view_serials/{{ordem.id}}">Iniciado</a>
-                                            <form action="{{ url_for('delete_serials', ordem_id=ordem.id) }}" method="post">
-                                                <button type="submit" class="btn btn-danger btn-sm">Zerar Seriais</button>
+                                {% if ordem.status in [1] %}
+                                    <tr class="ordemDeProducao">
+                                        <td>{{ ordem.id }}</td>
+                                        <td>{{ ordem.produto.nome }}</td>
+                                        <td>{{ ordem.quantidade }}</td>
+                                        <td>{{ ordem.data_prevista.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                                        <td>
+                                            <form method="POST" action="{{ url_for('generate_serials', ordem_id=ordem.id) }}">
+                                                <button type="submit" class="btn btn-warning btn-sm">Iniciar Produção</button>
                                             </form>
-                                        {% endif %}
-                                    </td>
-                                </tr>
-                            {% endfor %}
+                                        </td>
+                                    </tr>
+                                    {% endif %}
+                                {% endfor %}
                         </tbody>
                     </table>
                     <small>
