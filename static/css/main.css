@@ -1,18 +1,38 @@
 :root {
     --verde: #0abb10;
     --verde-escuro: #0b7e0f;
+    --cinza: #ededed;
+    --cinza-escuro: #444544;
+    --azul-escuro: #13017a;
   }
 
 /* RESET BOOTSTRAP SETTINGS */
 .btn-primary{
-    background-color: var(--verde)!important;
-    border-color: var(--verde)!important;
-}
-
-.btn-primary:hover, .btn-primary:active, .btn-primary:focus{
     background-color: var(--verde-escuro)!important;
     border-color: var(--verde-escuro)!important;
 }
+
+.btn-primary:hover, .btn-primary:active, .btn-primary:focus{
+    background-color: var(--cinza-escuro)!important;
+    border-color: var(--cinza-escuro)!important;
+}
+
+body a {
+    color: var(--cinza-escuro);
+}
+
+body a:hover, .btn-link:hover {
+    color: var(--azul-escuro);
+}
+
+.btn-link {
+    color: var(--cinza-escuro)!important;
+}
+
+.btn-link:hover {
+    color: var(--azul-escuro)!important;
+}
+
 
 
 /* RESET BOOTSTRAP SETTINGS */
@@ -20,14 +40,33 @@
 
 /* NAV */
 
+.navbarContainer .navbar{
+    background-color: var(--cinza);
+    border-radius: 8px;
+}
+
 .navbarContainer .nav-item .nav-link{
-    color: var(--verde-escuro)!important;
+    color: var(--cinza-escuro)!important;
     font-weight: 400;
 }
 
 .navbarContainer .nav-item.active .nav-link{
     font-weight: 700;
-    color: var(--verde)!important;
+    color: var(--cinza)!important;
+}
+
+.navbar-toggler {
+    background-color: var(--cinza-escuro)!important;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.navbar-toggler .navbar-toggler-icon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 /* NAV */
 
@@ -39,6 +78,7 @@ body {
     background-image: url('../img/common/background.jpg');
     background-size: cover;
     background-position: center;
+    font-size: .8rem;
 }
 
 .content {
@@ -88,13 +128,13 @@ td {
 
 .login-container form{
     padding: 15px 35px;
-    background-color: #ededed;
+    background-color: var(--cinza);
     border-radius: 35px;
 }
 .login-container form .form-control{
     background-color: black;
-    color: #ededed;
-    font-size: 14px;
+    color: var(--cinza);
+    font-size: 13px;
 }
 
 
@@ -103,20 +143,20 @@ td {
 
 .inicio .inicio-card{
     padding: 15px 35px;
-    background-color: #ededed;
-    border-radius: 15px;
+    background-color: var(--cinza);
+    border-radius: 8px;
 }
 
 
 .inicio .inicio-card table{
-    font-size: 13px;
+    font-size: 12px;
     color: black;
     text-align: left;
     border: none;
 }
 
 .inicio .inicio-card table th{
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 700;
 }
 
@@ -128,20 +168,20 @@ text-align: left;
 /* HISTÓRICO */
 .historico-container{
     padding: 15px 35px;
-    background-color: #ededed;
-    border-radius: 15px;
+    background-color: var(--cinza);
+    border-radius: 8px;
 }
 
 
 .historico-container table{
-    font-size: 13px;
+    font-size: 12px;
     color: black;
     text-align: left;
     border: none;
 }
 
 .historico-container table th{
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 700;
 }
 
@@ -152,20 +192,20 @@ text-align: left;
 /* PRODUTOS */
 .produtos-container{
     padding: 15px 35px;
-    background-color: #ededed;
-    border-radius: 15px;
+    background-color: var(--cinza);
+    border-radius: 8px;
 }
 
 
 .produtos-container table{
-    font-size: 13px;
+    font-size: 12px;
     color: black;
     text-align: left;
     border: none;
 }
 
 .produtos-container table th{
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 700;
 }
 
@@ -177,20 +217,20 @@ text-align: left;
 /* PRODUTOS */
 .produtos-container{
     padding: 15px 35px;
-    background-color: #ededed;
-    border-radius: 15px;
+    background-color: var(--cinza);
+    border-radius: 8px;
 }
 
 
 .produtos-container table{
-    font-size: 13px;
+    font-size: 12px;
     color: black;
     text-align: left;
     border: none;
 }
 
 .produtos-container table th{
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 700;
 }
 
@@ -204,8 +244,8 @@ text-align: left;
 
 .access-point-container{
     padding: 15px 35px;
-    background-color: #ededed;
-    border-radius: 15px;
+    background-color: var(--cinza);
+    border-radius: 8px;
 }
 
 
@@ -213,15 +253,15 @@ text-align: left;
 
 .product .product-container{
     padding: 15px 35px;
-    background-color: #ededed;
-    border-radius: 15px;
+    background-color: var(--cinza);
+    border-radius: 8px;
 }
 
 
 
 
 td button, td a.btn{
-    font-size: 11px!important;
+    font-size: 10px!important;
 }
 
 /* ORDEM */

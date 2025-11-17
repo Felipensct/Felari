@@ -18,20 +18,22 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
   <script src="https://kit.fontawesome.com/92bc84c3ac.js" crossorigin="anonymous"></script>
 
-<link rel="icon" type="image/x-icon" href="../static/img/favicon.png">
+<link rel="icon" type="image/x-icon" href="../static/img/janus_logo.png">
 
     {% block head %}{% endblock %}
 </head>
 <body>
   {% if loginPage != True %}
         <!-- Barra de navegação aqui -->
-        <div class="container navbarContainer py-md-4">
+        <div class="container navbarContainer my-2">
           <nav class="navbar navbar-expand-md">
             <a class="navbar-brand" href="/">
-              <img src="../static/img/felariLogo.png" class="img-fluid" style="max-width: 160px;" />
+              <img src="../static/img/janus_longo.png" class="img-fluid" style="max-width: 160px;" />
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
+              <span class="navbar-toggler-icon">
+                <i class="fa fa-bars" aria-hidden="true"></i>
+              </span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
               <ul class="navbar-nav w-100">
@@ -47,7 +49,7 @@
                   </div>
                 </li>
                 <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+                  <a class="nav-link dropdown-toggle" href="javascript:;" role="button" data-toggle="dropdown" aria-expanded="false">
                     Produção
                   </a>
                   <div class="dropdown-menu">
@@ -68,19 +70,19 @@
     {% endif %}
 
     <!-- Local para inserir o código de mensagens flash -->
-    <div class="container pt-5">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+    <div class="container">
       <div class="row ">
         <div class="col-12">
-          {% with messages = get_flashed_messages() %}
-            {% if messages %}
               {% for message in messages %}
                 <div class="alert alert-success">{{ message }}</div>
               {% endfor %}
-            {% endif %}
-          {% endwith %}
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+        {% endif %}
+      {% endwith %}
 
     {% block body %}
     {% endblock %}
